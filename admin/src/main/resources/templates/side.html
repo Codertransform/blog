@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="side">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="menu">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="javascript:void(0);">管理员管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="#nav=1" data-href="/admin">管理员列表</a></dd>
+                    <dd><a href="#nav=2" data-href="/role">角色管理</a></dd>
+                    <dd><a href="#nav=3" data-href="/menu">菜单管理</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);">menu group 2</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:void(0);">list 1</a></dd>
+                    <dd><a href="javascript:void(0);">list 2</a></dd>
+                    <dd><a href="javascript:void(0);">超链接</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:void(0);">click menu item</a></li>
+            <li class="layui-nav-item"><a href="javascript:void(0);">the links</a></li>
+        </ul>
+    </div>
+</div>
+</html>
