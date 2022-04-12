@@ -1,32 +1,32 @@
 package com.mikes.admin.entity.enumeration;
 
 public enum Sex {
-    FELMALE("女", 0),
-    MALE("男", 1);
+    FELMALE(0, "女"),
+    MALE(1, "男");
 
-    private String sex;
     private int index;
+    private String desc;
 
-    Sex(String sex, int index) {
-        this.sex = sex;
+    Sex( int index,String desc) {
+        this.desc = desc;
         this.index = index;
     }
 
     public static String getSex(int index){
         for (Sex s : Sex.values()){
             if (s.index == index){
-                return s.sex;
+                return s.desc;
             }
         }
         return null;
     }
 
-    public String getSex() {
-        return sex;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getIndex() {
