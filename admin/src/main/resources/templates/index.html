@@ -64,21 +64,19 @@
         element.on('nav(menu)', function (elem) {
             var href = elem.context.origin + elem.context.dataset.href;
             var title = elem.context.innerText;
-            console.log(layid);
             element.tabAdd('tabs', {
                 id:layid,
                 title: title,
                 content: '<iframe src="'+href+'" frameborder="0" scrolling="no" width="100%" height="750"></iframe>'
             })
+            //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+            element.tabChange('tabs', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
+
+            //监听Tab切换，以改变地址hash值
+            element.on('tab(tabs)', function(){
+                location.hash = 'tabs='+ this.getAttribute('lay-id');
+            });
         })
-
-        //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
-        element.tabChange('tabs', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
-
-        //监听Tab切换，以改变地址hash值
-        element.on('tab(tabs)', function(){
-            location.hash = 'tabs='+ this.getAttribute('lay-id');
-        });
 
         table.render({
             elem: '#demo',
