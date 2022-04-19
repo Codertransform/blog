@@ -7,7 +7,7 @@ public class User {
     private String username;
     private String password;
     private String nickname;
-    private Sex sex;
+    private String sex;
     private String phone;
     private String email;
     private String registerTime;
@@ -45,11 +45,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    public Sex getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
