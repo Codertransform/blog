@@ -26,7 +26,7 @@
             u.email as "email",
             u.register_time as "registerTime",
             u.login_time as "loginTime"
-        from `user` u
+        from `sys_user` u
         where 1=1
         <if test="username != null and username != ''">
             and u.username = #{username}
