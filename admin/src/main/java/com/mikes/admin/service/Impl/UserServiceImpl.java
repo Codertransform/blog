@@ -1,6 +1,7 @@
 package com.mikes.admin.service.Impl;
 
 import com.mikes.admin.dao.user.UserMapper;
+import com.mikes.admin.entity.result.Result;
 import com.mikes.admin.entity.user.User;
 import com.mikes.admin.service.UserSerrvice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class UserServiceImpl implements UserSerrvice {
     private UserMapper userMapper;
 
     @Override
-    public List<User> findList(User user) {
-        return userMapper.findList(user);
+    public Result<List<User>> findList(User user) {
+        return Result.success(userMapper.findList(user));
     }
 
     @Override

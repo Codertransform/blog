@@ -1,10 +1,12 @@
 package com.mikes.admin.controller.admin;
 
+import com.mikes.admin.entity.result.Result;
 import com.mikes.admin.entity.user.User;
 import com.mikes.admin.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,8 +26,10 @@ public class AdminController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/user")
-    public List<User> users(User user){
+    @GetMapping(value = "/user")
+    public Result<List<User>> users(User user){
         return userService.findList(user);
     }
+
+
 }
