@@ -14,6 +14,4 @@ public interface UserService {
     int save(UserInfo userInfo);
 
     int delete(UserInfo userInfo);
-
-    UserInfo findByName(String username);
 }

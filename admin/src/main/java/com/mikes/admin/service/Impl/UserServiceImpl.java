@@ -34,9 +34,4 @@ public class UserServiceImpl implements UserService {
     public int delete(UserInfo userInfo) {
         return userMapper.delete(userInfo);
     }
-
-    @Override
-    public UserInfo findByName(String username) {
-        return null;
-    }
 }

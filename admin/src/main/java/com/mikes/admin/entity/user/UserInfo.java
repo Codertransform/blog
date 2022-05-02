@@ -2,7 +2,7 @@ package com.mikes.admin.entity.user;
 
 public class UserInfo {
     private int id;
-    private String username;
+    private String userName;
     private String password;
     private String nickname;
     private String sex;
@@ -10,6 +10,7 @@ public class UserInfo {
     private String email;
     private String registerTime;
     private String loginTime;
+    private String role;
 
     public int getId() {
         return id;
@@ -19,12 +20,12 @@ public class UserInfo {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -81,5 +82,13 @@ public class UserInfo {
 
     public void setLoginTime(String loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
