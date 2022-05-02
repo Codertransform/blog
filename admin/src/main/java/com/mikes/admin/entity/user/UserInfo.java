@@ -1,8 +1,6 @@
 package com.mikes.admin.entity.user;
 
-import com.mikes.admin.entity.enumeration.Sex;
-
-public class User {
+public class UserInfo {
     private int id;
     private String username;
     private String password;

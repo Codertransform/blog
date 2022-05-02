@@ -1,7 +1,7 @@
 package com.mikes.admin.controller.admin;
 
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.user.User;
+import com.mikes.admin.entity.user.UserInfo;
 import com.mikes.admin.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,15 +20,15 @@ public class AdminController {
     private UserServiceImpl userService;
 
     @RequestMapping(value = {"","/"})
-    public String index(User user, Model model){
-        model.addAttribute("user", user);
+    public String index(UserInfo userInfo, Model model){
+        model.addAttribute("userInfo", userInfo);
         return "admin/index";
     }
 
     @ResponseBody
     @GetMapping(value = "/user")
-    public Result<List<User>> users(User user){
-        return userService.findList(user);
+    public Result<List<UserInfo>> users(UserInfo userInfo){
+        return userService.findList(userInfo);
     }
 
 

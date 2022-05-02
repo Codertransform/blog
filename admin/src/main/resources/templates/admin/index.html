@@ -14,13 +14,13 @@
                 <div class="layui-col-md2">
                     <label for="phone" class="layui-form-label">电话</label>
                     <div class="layui-input-block">
-                        <input id="phone" type="text" name="phone" th:value="${user.phone}" placeholder="请输入电话" autocomplete="off" class="layui-input">
+                        <input id="phone" type="text" name="phone" th:value="${userInfo.phone}" placeholder="请输入电话" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-col-md2">
                     <label for="username" class="layui-form-label">用户名</label>
                     <div class="layui-input-block">
-                        <input id="username" type="text" name="username" th:value="${user.username}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                        <input id="username" type="text" name="username" th:value="${userInfo.username}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-col-md3">
@@ -45,13 +45,13 @@
             ,table = layui.table
             ,$ = layui.$;
 
-        var phone = [[${user.phone}]], username = [[${user.username}]];
+        var phone = [[${userInfo.phone}]], username = [[${userInfo.username}]];
         // console.log(phone + "--------" + username);
 
         table.render({
             elem: '#demo',
             height: 312,
-            url: '/admin/user', //数据接口
+            url: '/admin/userInfo', //数据接口
             where: {phone: phone, username: username},
             method: 'post',
             page: true, //开启分页

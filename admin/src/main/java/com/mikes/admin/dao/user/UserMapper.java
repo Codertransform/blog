@@ -1,6 +1,6 @@
 package com.mikes.admin.dao.user;
 
-import com.mikes.admin.entity.user.User;
+import com.mikes.admin.entity.user.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -8,13 +8,13 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    List<User> findList(User user);
+    List<UserInfo> findList(UserInfo userInfo);
 
-    User get(User user);
+    UserInfo get(UserInfo userInfo);
 
-    int insert(User user);
+    int insert(UserInfo userInfo);
 
-    int update(User user);
+    int update(UserInfo userInfo);
 
-    int delete(User user);
+    int delete(UserInfo userInfo);
 }
