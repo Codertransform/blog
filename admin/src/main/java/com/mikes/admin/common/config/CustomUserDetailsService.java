@@ -29,6 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserInfo info = new UserInfo();
         info.setUserName(username);
         UserInfo userInfo = userService.get(info);
+        System.out.println(userInfo);
         if (userInfo == null){
             throw new UsernameNotFoundException("not found");
         }

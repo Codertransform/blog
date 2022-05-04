@@ -1,5 +1,8 @@
 package com.mikes.admin.common.config;
 
+import com.mikes.admin.security.CustomLogoutSuccessHandler;
+import com.mikes.admin.security.LoginFailureHandler;
+import com.mikes.admin.security.LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,17 +13,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class securityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        // 使用BCrypt加密密码
-        return new BCryptPasswordEncoder();
-    }
+    @Resource
+    private LoginSuccessHandler loginSuccessHandler; //认证成功结果处理器
+    @Resource
+    private LoginFailureHandler loginFailureHandler; //认证失败结果处理器
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,18 +40,22 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest() //任何其它请求
                 .authenticated() //都需要身份认证
                 .and()
-                .formLogin() //使用表单认证方式
-                .loginProcessingUrl("/login")//配置默认登录入口
+            .formLogin() //使用表单认证方式
+                .loginPage("/login")
+                .loginProcessingUrl("/doLogin")//配置默认登录入口
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
-                .and()
-                .logout()
-                .logoutUrl("/logout")
+                .successHandler(loginSuccessHandler)//使用自定义的成功结果处理器
+                .failureHandler(loginFailureHandler)//使用自定义失败的结果处理器
                 .permitAll()
                 .and()
-                .sessionManagement()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                .permitAll()
+                .and()
+            .sessionManagement()
                 .invalidSessionUrl("/login")
-//                .maximumSessions(1).maxSessionsPreventsLogin(true)
                 .and().csrf().disable();
     }
 
@@ -54,5 +65,9 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/static/**");
     }
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        // 使用BCrypt加密密码
+        return new BCryptPasswordEncoder();
+    }
 }

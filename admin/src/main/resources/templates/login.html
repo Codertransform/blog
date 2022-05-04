@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<form method="POST" th:action="@{/doLogin}">
+    <div>
+        <label for="username">用户名：</label><input type="text" name="username" id="username">
+    </div>
+    <div>
+        <label for="password">密码：</label><input type="password" name="password" id="password">
+    </div>
+    <div>
+        <button type="submit">立即登陆</button>
+    </div>
+    <!-- 以下为显示认证失败等提示信息（th:if=""一定要写 ）-->
+    <span style="color: red;" th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
+</form>
+</body>
+</html>

@@ -91,4 +91,20 @@ public class UserInfo {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex='" + sex + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", registerTime='" + registerTime + '\'' +
+                ", loginTime='" + loginTime + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

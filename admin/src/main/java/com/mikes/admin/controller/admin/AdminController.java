@@ -2,7 +2,7 @@ package com.mikes.admin.controller.admin;
 
 import com.mikes.admin.entity.result.Result;
 import com.mikes.admin.entity.user.UserInfo;
-import com.mikes.admin.service.Impl.UserServiceImpl;
+import com.mikes.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @RequestMapping(value = {"","/"})
     public String index(UserInfo userInfo, Model model){
