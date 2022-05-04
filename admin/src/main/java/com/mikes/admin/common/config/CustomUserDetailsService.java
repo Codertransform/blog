@@ -27,14 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserInfo info = new UserInfo();
-        info.setUserName(username);
+        info.setUsername(username);
         UserInfo userInfo = userService.get(info);
-        System.out.println(userInfo);
         if (userInfo == null){
             throw new UsernameNotFoundException("not found");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userInfo.getRole()));
-        return new User(userInfo.getUserName(),passwordEncoder.encode(userInfo.getPassword()),authorities);
+        userInfo.setAuthorities(authorities);
+        return userInfo;
     }
 }

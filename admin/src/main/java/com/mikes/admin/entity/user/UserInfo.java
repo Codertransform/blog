@@ -1,8 +1,15 @@
 package com.mikes.admin.entity.user;
 
-public class UserInfo {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
+public class UserInfo implements Serializable,UserDetails {
     private int id;
-    private String userName;
+    private String username;
     private String password;
     private String nickname;
     private String sex;
@@ -11,6 +18,8 @@ public class UserInfo {
     private String registerTime;
     private String loginTime;
     private String role;
+    private List<Role> roles;
+    private List<GrantedAuthority> authorities;
 
     public int getId() {
         return id;
@@ -20,12 +29,8 @@ public class UserInfo {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -92,11 +97,66 @@ public class UserInfo {
         this.role = role;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setAuthorities(List<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    //默认使用恒等去判断是否是同一个对象，因为登录的同一个用户，如果再次登录就会封装
+    //一个新的对象，这样会导致登录的用户永远不会相等，所以需要重写equals方法
+    @Override
+    public boolean equals(Object obj) {
+        //会话并发生效，使用username判断是否是同一个用户
+        if (obj instanceof UserInfo){
+            //字符串的equals方法是已经重写过的
+            return ((UserInfo) obj).getUsername().equals(this.username);
+        }else {
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", sex='" + sex + '\'' +

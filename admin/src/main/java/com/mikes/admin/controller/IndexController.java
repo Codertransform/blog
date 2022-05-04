@@ -28,23 +28,4 @@ public class IndexController {
     public String workSpace(Model model){
         return "workspace";
     }
-
-    @GetMapping("/404")
-    public String notFoundPage() {
-        return "/error/404";
-    }
-    /**
-     * 未授权
-     */
-    @GetMapping("/403")
-    public String accessError() {
-        return "/error/403";
-    }
-    /**
-     * 服务器错误
-     */
-    @GetMapping("/500")
-    public String internalError() {
-        return "/error/500";
-    }
 }

@@ -6,7 +6,7 @@
     <select id="findList" resultType="UserInfo">
         select
             u.id as "uid",
-            u.username as "userName",
+            u.username as "username",
             u.password as "password",
             u.nickname as "nickname" ,
             u.sex as "sex",
@@ -27,8 +27,8 @@
 
     <select id="get" resultType="UserInfo">
         select
-            u.id as "uid",
-            u.username as "userName",
+            u.id as "id",
+            u.username as "username",
             u.password as "password",
             u.nickname as "nickname" ,
             u.sex as "sex",
@@ -41,8 +41,8 @@
         left join sys_user_role ur on ur.user_id = u.id
         left join sys_role r on r.id = ur.role_id
         where 1=1
-        <if test="userName != null and userName != ''">
-            and u.username = #{userName}
+        <if test="username != null and username != ''">
+            and u.username = #{username}
         </if>
     </select>
 

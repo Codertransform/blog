@@ -23,6 +23,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         logger.info("登录失败");
+        logger.info(exception.getMessage());
         this.saveException(request, exception);
         this.getRedirectStrategy().sendRedirect(request, response, "/login?error=true");
     }

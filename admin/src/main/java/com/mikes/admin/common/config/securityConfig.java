@@ -3,6 +3,8 @@ package com.mikes.admin.common.config;
 import com.mikes.admin.security.CustomLogoutSuccessHandler;
 import com.mikes.admin.security.LoginFailureHandler;
 import com.mikes.admin.security.LoginSuccessHandler;
+import com.mikes.admin.security.SecurityAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +30,14 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
     private LoginSuccessHandler loginSuccessHandler; //认证成功结果处理器
     @Resource
     private LoginFailureHandler loginFailureHandler; //认证失败结果处理器
+    @Resource
+    private SecurityAuthenticationProvider authenticationProvider;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        // 使用BCrypt加密密码
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,18 +55,18 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/doLogin")//配置默认登录入口
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
-                .successHandler(loginSuccessHandler)//使用自定义的成功结果处理器
-                .failureHandler(loginFailureHandler)//使用自定义失败的结果处理器
                 .permitAll()
                 .and()
             .logout()
                 .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
                 .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 .permitAll()
                 .and()
             .sessionManagement()
                 .invalidSessionUrl("/login")
-                .and().csrf().disable();
+                .and()
+            .csrf().disable();
     }
 
     @Override
@@ -65,9 +75,9 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/static/**");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        // 使用BCrypt加密密码
-        return new BCryptPasswordEncoder();
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider);
+//        super.configure(auth);
     }
 }
