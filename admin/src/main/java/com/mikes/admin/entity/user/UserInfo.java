@@ -15,6 +15,7 @@ public class UserInfo implements Serializable,UserDetails {
     private String sex;
     private String phone;
     private String email;
+    private String birthday;
     private String registerTime;
     private String loginTime;
     private String role;
@@ -71,6 +72,14 @@ public class UserInfo implements Serializable,UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getRegisterTime() {
@@ -156,15 +165,18 @@ public class UserInfo implements Serializable,UserDetails {
     public String toString() {
         return "UserInfo{" +
                 "id=" + id +
-                ", userName='" + username + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", sex='" + sex + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
+                ", birthday='" + birthday + '\'' +
                 ", registerTime='" + registerTime + '\'' +
                 ", loginTime='" + loginTime + '\'' +
                 ", role='" + role + '\'' +
+                ", roles=" + roles +
+                ", authorities=" + authorities +
                 '}';
     }
 }

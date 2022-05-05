@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +22,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Resource
     private UserService userService;
-
-    @Resource
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,6 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userInfo.getRole()));
         userInfo.setAuthorities(authorities);
+        System.out.println(userInfo);
+//        session.setAttribute(username,userInfo);
         return userInfo;
     }
 }
