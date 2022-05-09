@@ -5,22 +5,23 @@
 
     <select id="findList" resultType="UserInfo">
         select
-            u.id as "uid",
+            u.id as "id",
             u.username as "username",
             u.password as "password",
             u.nickname as "nickname" ,
             u.sex as "sex",
             u.phone as "phone",
             u.email as "email",
+            u.birthday as "birthday",
             u.register_time as "registerTime",
             u.login_time as "loginTime"
-        from `sys_user` u
+        from `sys_admin` u
         where 1=1
         <if test="username != null and username != ''">
-            and u.username = #{username}
+            and u.username like CONCAT('%',#{username},'%')
         </if>
         <if test="phone != null and phone != ''">
-            and u.phone = #{phone}
+            and u.phone like CONCAT('%',#{phone},'%')
         </if>
         order by id
     </select>
@@ -34,12 +35,13 @@
             u.sex as "sex",
             u.phone as "phone",
             u.email as "email",
+            u.birthday as "birthday",
             u.register_time as "registerTime",
             u.login_time as "loginTime",
             r.flag as "role"
-        from `sys_user` u
-        left join sys_user_role ur on ur.user_id = u.id
-        left join sys_role r on r.id = ur.role_id
+        from `sys_admin` u
+        left join sys_admin_role ar on ar.admin_id = u.id
+        left join sys_role r on r.id = ar.role_id
         where 1=1
         <if test="username != null and username != ''">
             and u.username = #{username}

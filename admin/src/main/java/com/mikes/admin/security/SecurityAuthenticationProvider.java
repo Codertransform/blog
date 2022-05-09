@@ -45,6 +45,8 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
         // 这里构建来判断用户是否存在和密码是否正确
         UserDetails user = userService.loadUserByUsername(userName);
+        System.out.println("Provider:"+user);
+
         if (user == null)
         {
             throw new BadCredentialsException("用户不存在");
@@ -55,7 +57,6 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("密码不正确");
         }
         /*String requestCode = request.getParameter("validateCode");
-        HttpSession session = request.getSession();
         String saveCode = (String) session.getAttribute("login_validate_code");//captcha
         //获取到session验证码后随时清除
         if(!StringUtils.isEmpty(saveCode)) {
