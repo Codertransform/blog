@@ -47,6 +47,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/500").permitAll()
                 .antMatchers("/403").permitAll()
                 .antMatchers("/404").permitAll()
+                .antMatchers("/admin/userInfo").permitAll()
                 .anyRequest() //任何其它请求
                 .authenticated() //都需要身份认证
                 .and()
@@ -54,6 +55,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .loginProcessingUrl("/doLogin")//配置默认登录入口
                 .defaultSuccessUrl("/")
+                .successHandler(loginSuccessHandler)
                 .failureUrl("/login?error=true")
                 .permitAll()
                 .and()

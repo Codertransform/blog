@@ -24,8 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Resource
     private UserService userService;
 
-    private HttpServletRequest request;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserInfo info = new UserInfo();
@@ -37,9 +35,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userInfo.getRole()));
         userInfo.setAuthorities(authorities);
-        System.out.println(userInfo);
-        HttpSession session = request.getSession();
-        session.setAttribute(username,userInfo);
         return userInfo;
     }
 }

@@ -17,7 +17,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result<List<UserInfo>> findList(UserInfo userInfo) {
-        return Result.success(userMapper.findList(userInfo));
+        List<UserInfo> userInfos = userMapper.findList(userInfo);
+        return Result.success(userInfos.size(),userInfos);
     }
 
     @Override
