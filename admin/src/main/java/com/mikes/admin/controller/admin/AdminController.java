@@ -26,6 +26,13 @@ public class AdminController {
         return "admin/index";
     }
 
+    @RequestMapping(value = "/edit")
+    public String edit(UserInfo userInfo, Model model){
+        model.addAttribute("title", "管理员信息编辑");
+        model.addAttribute("userInfo", userService.get(userInfo));
+        return "admin/edit";
+    }
+
     @ResponseBody
     @PostMapping(value = "/userInfo")
     public Result<List<UserInfo>> users(UserInfo userInfo){
