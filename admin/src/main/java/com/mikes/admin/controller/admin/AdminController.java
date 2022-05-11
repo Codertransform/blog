@@ -34,6 +34,12 @@ public class AdminController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/save")
+    public Result<UserInfo> save(UserInfo userInfo){
+        return userService.save(userInfo);
+    }
+
+    @ResponseBody
     @PostMapping(value = "/userInfo")
     public Result<List<UserInfo>> users(UserInfo userInfo){
         return userService.findList(userInfo);

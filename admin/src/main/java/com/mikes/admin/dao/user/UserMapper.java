@@ -12,9 +12,11 @@ public interface UserMapper {
 
     UserInfo get(UserInfo userInfo);
 
-    int insert(UserInfo userInfo);
+    void insert(UserInfo userInfo);
 
-    int update(UserInfo userInfo);
+    void update(UserInfo userInfo);
+
+    void updLoginTime(UserInfo userInfo);
 
     int delete(UserInfo userInfo);
 }

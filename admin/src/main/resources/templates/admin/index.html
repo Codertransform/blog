@@ -58,22 +58,28 @@
                 //表头
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
                 {field: 'username', title: '用户名', width:120},
-                {field: 'nickname', title: '昵称', width:200},
+                {field: 'nickname', title: '昵称', width:150},
                 {field: 'sex', title: '性别', width:100},
                 {field: 'phone', title: '电话', width: 150},
                 {field: 'email', title: '邮箱', width: 210, sort: true},
                 {field: 'birthday', title: '出生日期', width: 150, sort: true},
+                {field: 'signature', title: '个性签名', width: 200, sort: true},
                 {field: 'registerTime', title: '注册时间', width: 200, sort: true},
                 {field: 'loginTime', title: '登录时间', width: 200, sort: true},
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
-            ]]
+            ]],
+            toolbar: 'default',
+            defaultToolbar: ['filter', 'print', 'exports', {
+                title: '提示' //标题
+                ,layEvent: 'LAYTABLE_TIPS' //事件名，用于 toolbar 事件中使用
+                ,icon: 'layui-icon-tips' //图标类名
+            }]
         })
 
         table.on('tool(admin)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             var tr = obj.tr;
-            console.log(data)
 
             if (layEvent === 'detail'){
 
@@ -87,14 +93,22 @@
             }else if (layEvent === 'edit'){
                 layer.open({
                     type:2,
-                    area:['500px'],
+                    area:['1000px','700px'],
                     title:'管理员信息编辑',
-                    content:'/admin/edit'
+                    content:'/admin/edit?id=' + data.id
                 })
-                obj.update({
-                    username: '123'
-                    ,title: 'xxx'
-                })
+                // obj.update({
+                //     id: obj.data.id,
+                //     username: obj.data.username,
+                //     nickname: obj.data.nickname,
+                //     sex: obj.data.sex,
+                //     phone: obj.data.phone,
+                //     email: obj.data.email,
+                //     birthday: obj.data.birthday,
+                //     signature: obj.data.signature,
+                //     registerTime: obj.data.registerTime,
+                //     loginTime: obj.data.loginTime
+                // })
             }else if (layEvent === 'LAYTABLE_TIPS') {
                 layer.alert('Hi，头部工具栏扩展的右侧图标。');
             }

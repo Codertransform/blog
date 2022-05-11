@@ -14,7 +14,8 @@
             u.email as "email",
             u.birthday as "birthday",
             u.register_time as "registerTime",
-            u.login_time as "loginTime"
+            u.login_time as "loginTime",
+            u.signature as "signature"
         from `sys_admin` u
         where 1=1
         <if test="username != null and username != ''">
@@ -38,14 +39,65 @@
             u.birthday as "birthday",
             u.register_time as "registerTime",
             u.login_time as "loginTime",
+            u.signature as "signature",
             r.flag as "role"
         from `sys_admin` u
         left join sys_admin_role ar on ar.admin_id = u.id
         left join sys_role r on r.id = ar.role_id
         where 1=1
+        <if test="id != null and id != ''">
+            and u.id = #{id}
+        </if>
         <if test="username != null and username != ''">
             and u.username = #{username}
         </if>
     </select>
 
+    <insert id="insert">
+        insert into sys_admin (
+            username,
+            password,
+            nickname,
+            sex,
+            phone,
+            email,
+            birthday,
+            register_time,
+            login_time,
+            signature
+        ) values {
+            #{username},
+            #{password},
+            #{nickname},
+            #{sex},
+            #{phone},
+            #{email},
+            #{birthday},
+            #{registerTime},
+            #{loginTime},
+            #{signature}
+        }
+    </insert>
+
+    <update id="update">
+        update sys_admin set
+            username = #{username},
+            nickname = #{nickname},
+            sex = #{sex},
+            phone = #{phone},
+            email = #{email},
+            birthday = #{birthday},
+            signature = #{signature}
+        where id = #{id}
+    </update>
+
+    <update id="updLoginTime">
+        update sys_admin set
+            login_time = #{loginTime}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from sys_admin where id=#{id}
+    </delete>
 </mapper>

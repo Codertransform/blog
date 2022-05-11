@@ -18,6 +18,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result<List<UserInfo>> findList(UserInfo userInfo) {
         List<UserInfo> userInfos = userMapper.findList(userInfo);
+        for (UserInfo u : userInfos){
+            if (u.getSex().equals("0")){
+                u.setSex("女");
+            }else {
+                u.setSex("男");
+            }
+        }
         return Result.success(userInfos.size(),userInfos);
     }
 
@@ -27,8 +34,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int save(UserInfo userInfo) {
-        return 0;
+    public Result<UserInfo> save(UserInfo userInfo) {
+        if (userInfo.getId() != 0) {
+            userMapper.update(userInfo);
+            return Result.success(userInfo);
+        }else {
+            userMapper.insert(userInfo);
+            return Result.success(userInfo);
+        }
     }
 
     @Override

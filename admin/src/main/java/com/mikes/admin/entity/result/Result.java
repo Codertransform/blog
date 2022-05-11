@@ -37,6 +37,17 @@ public class Result<T> {
     }
 
     /**
+     * 成功，有返回数据
+     */
+    public static <V> Result<V> success(V data) {
+        Result<V> result = new Result<>();
+        result.code = ResultCode.SUCCESS.getCode();
+        result.message = ResultCode.SUCCESS.getMessage();
+        result.data = data;
+        return result;
+    }
+
+    /**
      * 失败
      */
     public static Result<Void> failure() {
