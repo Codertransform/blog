@@ -15,9 +15,10 @@
             u.birthday as "birthday",
             u.register_time as "registerTime",
             u.login_time as "loginTime",
-            u.signature as "signature"
+            u.signature as "signature",
+            u.status as "status"
         from `sys_admin` u
-        where 1=1
+        where u.status = 1
         <if test="username != null and username != ''">
             and u.username like CONCAT('%',#{username},'%')
         </if>
@@ -44,7 +45,7 @@
         from `sys_admin` u
         left join sys_admin_role ar on ar.admin_id = u.id
         left join sys_role r on r.id = ar.role_id
-        where 1=1
+        where u.status = 1
         <if test="id != null and id != ''">
             and u.id = #{id}
         </if>
@@ -64,7 +65,8 @@
             birthday,
             register_time,
             login_time,
-            signature
+            signature,
+            status
         ) values {
             #{username},
             #{password},
@@ -75,7 +77,8 @@
             #{birthday},
             #{registerTime},
             #{loginTime},
-            #{signature}
+            #{signature},
+            #{status}
         }
     </insert>
 
@@ -94,6 +97,12 @@
     <update id="updLoginTime">
         update sys_admin set
             login_time = #{loginTime}
+        where id = #{id}
+    </update>
+
+    <update id="updStatus">
+        update sys_admin set
+            status = #{status}
         where id = #{id}
     </update>
 

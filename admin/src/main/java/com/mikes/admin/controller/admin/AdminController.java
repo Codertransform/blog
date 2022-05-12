@@ -40,10 +40,20 @@ public class AdminController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/delete")
+    public Result<UserInfo> delete(UserInfo userInfo){
+        return userService.delete(userInfo);
+    }
+
+    @ResponseBody
     @PostMapping(value = "/userInfo")
     public Result<List<UserInfo>> users(UserInfo userInfo){
         return userService.findList(userInfo);
     }
 
-
+    @ResponseBody
+    @RequestMapping(value = "/check")
+    public Result<UserInfo> check(UserInfo userInfo){
+        return null;
+    }
 }

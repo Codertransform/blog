@@ -13,5 +13,5 @@ public interface UserService {
 
     Result<UserInfo> save(UserInfo userInfo);
 
-    int delete(UserInfo userInfo);
+    Result<UserInfo> delete(UserInfo userInfo);
 }

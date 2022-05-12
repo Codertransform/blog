@@ -19,6 +19,7 @@ public class UserInfo implements Serializable,UserDetails {
     private String registerTime;
     private String loginTime;
     private String signature;
+    private int status;
     private String role;
     private List<Role> roles;
     private List<GrantedAuthority> authorities;
@@ -107,6 +108,14 @@ public class UserInfo implements Serializable,UserDetails {
         this.signature = signature;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getRole() {
         return role;
     }
@@ -183,6 +192,8 @@ public class UserInfo implements Serializable,UserDetails {
                 ", birthday='" + birthday + '\'' +
                 ", registerTime='" + registerTime + '\'' +
                 ", loginTime='" + loginTime + '\'' +
+                ", signature='" + signature + '\'' +
+                ", status=" + status +
                 ", role='" + role + '\'' +
                 ", roles=" + roles +
                 ", authorities=" + authorities +

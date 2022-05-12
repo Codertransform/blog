@@ -30,9 +30,6 @@ import java.util.Enumeration;
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Resource
-    private ObjectMapper objectMapper;
-
     @Autowired
     private UserMapper userMapper;
 
@@ -45,10 +42,12 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         }
         logger.info("登录认证成功");
         RequestCache requestCache = new HttpSessionRequestCache();
+        HttpSession session = request.getSession();
         //这里写你登录成功后的逻辑，可以验证其他信息，如验证码等。
-        UserInfo info = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserInfo info = (UserInfo) authentication.getPrincipal();
         info.setLoginTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         userMapper.updLoginTime(info);
+        session.setAttribute(info.getUsername(),info);
 
         String url = null;
         SavedRequest savedRequest = requestCache.getRequest(request, response);

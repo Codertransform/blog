@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int delete(UserInfo userInfo) {
-        return userMapper.delete(userInfo);
+    public Result<UserInfo> delete(UserInfo userInfo) {
+        userMapper.delete(userInfo);
+        return Result.success(userInfo);
     }
 }

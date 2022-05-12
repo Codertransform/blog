@@ -45,7 +45,6 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
         // 这里构建来判断用户是否存在和密码是否正确
         UserDetails user = userService.loadUserByUsername(userName);
-        System.out.println("Provider:"+user);
 
         if (user == null)
         {
