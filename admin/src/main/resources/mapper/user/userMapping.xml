@@ -41,6 +41,7 @@
             u.register_time as "registerTime",
             u.login_time as "loginTime",
             u.signature as "signature",
+            u.status as "status",
             r.flag as "role"
         from `sys_admin` u
         left join sys_admin_role ar on ar.admin_id = u.id

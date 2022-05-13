@@ -1,5 +1,6 @@
 package com.mikes.admin.entity.user;
 
+import com.mikes.admin.entity.enumeration.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,7 +20,7 @@ public class UserInfo implements Serializable,UserDetails {
     private String registerTime;
     private String loginTime;
     private String signature;
-    private int status;
+    private UserStatus status;
     private String role;
     private List<Role> roles;
     private List<GrantedAuthority> authorities;
@@ -108,11 +109,11 @@ public class UserInfo implements Serializable,UserDetails {
         this.signature = signature;
     }
 
-    public int getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
