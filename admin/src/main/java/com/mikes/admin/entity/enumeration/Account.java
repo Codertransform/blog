@@ -5,11 +5,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserStatus {
+public enum Account {
+
     //启用
-    START(1,"已启用"),
+    START(0,"已启用"),
     //封禁
-    STOP(0, "已停用");
+    STOP(1, "已停用");
 
     private final int code;
     private final String message;

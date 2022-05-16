@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
             }else {
                 u.setSex("男");
             }
+
         }
         return Result.success(userInfos.size(),userInfos);
     }

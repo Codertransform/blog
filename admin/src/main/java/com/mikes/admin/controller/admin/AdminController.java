@@ -1,15 +1,13 @@
 package com.mikes.admin.controller.admin;
 
+import com.mikes.admin.entity.enumeration.Account;
 import com.mikes.admin.entity.result.Result;
 import com.mikes.admin.entity.user.UserInfo;
 import com.mikes.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -55,5 +53,11 @@ public class AdminController {
     @RequestMapping(value = "/check")
     public Result<UserInfo> check(UserInfo userInfo){
         return null;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/account")
+    public String test(@RequestParam Account account){
+        return "枚举序号：" + account.ordinal() + "枚举名：" + account.name();
     }
 }

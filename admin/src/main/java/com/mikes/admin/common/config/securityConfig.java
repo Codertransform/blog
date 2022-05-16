@@ -48,6 +48,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/403").permitAll()
                 .antMatchers("/404").permitAll()
                 .antMatchers("/admin/userInfo").permitAll()
+                .antMatchers("/admin/account").permitAll()
                 .anyRequest() //任何其它请求
                 .authenticated() //都需要身份认证
                 .and()

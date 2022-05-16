@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2022-05-13 17:27:02
+Date: 2022-05-16 17:38:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,16 +47,16 @@ CREATE TABLE `sys_admin` (
   `register_time` datetime NOT NULL COMMENT '注册时间',
   `login_time` datetime DEFAULT NULL COMMENT '登录时间',
   `signature` text COMMENT '个性签名',
-  `status` enum('启用','封禁') NOT NULL COMMENT '启用/封禁',
+  `enable` tinyint(1) NOT NULL COMMENT '账号是否可用(''0''-启用,''1''-停用)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 -- ----------------------------
 -- Records of sys_admin
 -- ----------------------------
-INSERT INTO `sys_admin` VALUES ('1', 'gxhbj', '$2a$10$2uCTkkItMcnA.kpKhn9YsOVgzHz8HSHOqGHhToqdRewpFtozS9K8e', '环保局', '0', '13556789876', '13556789876@163.com', null, '2020-08-12 22:57:45', '2020-10-26 23:53:38', null, '启用');
-INSERT INTO `sys_admin` VALUES ('2', 'test', '', '测试', '0', '15769271840', '18204099093@163.com', null, '2020-08-24 09:37:46', '2020-09-14 11:20:06', null, '启用');
-INSERT INTO `sys_admin` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', '1992-09-08', '2020-04-26 00:00:00', '2022-05-13 08:34:30', '拥有至高无上的权力', '启用');
+INSERT INTO `sys_admin` VALUES ('1', 'gxhbj', '$2a$10$2uCTkkItMcnA.kpKhn9YsOVgzHz8HSHOqGHhToqdRewpFtozS9K8e', '环保局', '0', '13556789876', '13556789876@163.com', null, '2020-08-12 22:57:45', '2020-10-26 23:53:38', null, '1');
+INSERT INTO `sys_admin` VALUES ('2', 'test', '', '测试', '0', '15769271840', '18204099093@163.com', null, '2020-08-24 09:37:46', '2020-09-14 11:20:06', null, '1');
+INSERT INTO `sys_admin` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', '1992-09-08', '2020-04-26 00:00:00', '2022-05-16 14:50:20', '拥有至高无上的权力', '0');
 
 -- ----------------------------
 -- Table structure for sys_admin_role
