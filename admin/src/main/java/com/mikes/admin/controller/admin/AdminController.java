@@ -39,7 +39,7 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping(value = "/delete")
-    public Result<UserInfo> delete(UserInfo userInfo){
+    public Result<?> delete(UserInfo userInfo){
         return userService.delete(userInfo);
     }
 
@@ -51,13 +51,14 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping(value = "/check")
-    public Result<UserInfo> check(UserInfo userInfo){
-        return null;
+    public Result<?> check(UserInfo userInfo){
+        return userService.check(userInfo);
     }
 
     @ResponseBody
     @RequestMapping(value = "/account")
     public String test(@RequestParam Account account){
-        return "枚举序号：" + account.ordinal() + "枚举名：" + account.name();
+        System.out.println("枚举序号：" + account.ordinal() + "枚举名：" + account.name() + "message:" + account.getMessage());
+        return "枚举序号：" + account.ordinal() + "枚举名：" + account.name() + "message:" + account.getMessage();
     }
 }

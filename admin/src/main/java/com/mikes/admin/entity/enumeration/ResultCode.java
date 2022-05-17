@@ -10,7 +10,7 @@ public enum ResultCode {
     SUCCESS(0, "成功"),
 
     //自定义失败信息
-    FAILURE(1, "失败"),
+    FAILURE(1, "失败,请联系管理员！"),
 
     //通用错误码 50001~50099
     PROGRAM_INSIDE_EXCEPTION(50001, "程序内部异常"),

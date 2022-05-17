@@ -18,5 +18,7 @@ public interface UserMapper {
 
     void updLoginTime(UserInfo userInfo);
 
-    void delete(UserInfo userInfo);
+    int updStatus(UserInfo userInfo);
+
+    int delete(UserInfo userInfo);
 }

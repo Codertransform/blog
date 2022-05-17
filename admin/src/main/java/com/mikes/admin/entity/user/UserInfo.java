@@ -19,7 +19,8 @@ public class UserInfo implements Serializable,UserDetails {
     private String registerTime;
     private String loginTime;
     private String signature;
-    private int enable;
+    private int enable;     //('0'-启用,'1'-停用)
+    private String able;
     private String role;
     private List<Role> roles;
     private List<GrantedAuthority> authorities;
@@ -116,6 +117,14 @@ public class UserInfo implements Serializable,UserDetails {
         this.enable = enable;
     }
 
+    public String getAble() {
+        return able;
+    }
+
+    public void setAble(String able) {
+        this.able = able;
+    }
+
     public String getRole() {
         return role;
     }
@@ -194,6 +203,7 @@ public class UserInfo implements Serializable,UserDetails {
                 ", loginTime='" + loginTime + '\'' +
                 ", signature='" + signature + '\'' +
                 ", enable=" + enable +
+                ", able='" + able + '\'' +
                 ", role='" + role + '\'' +
                 ", roles=" + roles +
                 ", authorities=" + authorities +

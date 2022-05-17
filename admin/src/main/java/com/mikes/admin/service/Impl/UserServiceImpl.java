@@ -24,7 +24,11 @@ public class UserServiceImpl implements UserService {
             }else {
                 u.setSex("男");
             }
-
+            if (u.getEnable() == 0){
+                u.setAble("已起用");
+            }else {
+                u.setAble("已封禁");
+            }
         }
         return Result.success(userInfos.size(),userInfos);
     }
@@ -46,8 +50,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<UserInfo> delete(UserInfo userInfo) {
-        userMapper.delete(userInfo);
-        return Result.success(userInfo);
+    public Result<?> delete(UserInfo userInfo) {
+        if (userMapper.delete(userInfo) != 0){
+            return Result.success(userInfo);
+        }else {
+            return Result.failure();
+        }
+    }
+
+    public Result<?> check(UserInfo userInfo){
+        if (userMapper.updStatus(userInfo) != 0){
+            if (userInfo.getEnable() == 0){
+                userInfo.setAble("已启用");
+            }else {
+                userInfo.setAble("已封禁");
+            }
+            return Result.success(userInfo);
+        }else {
+            return Result.failure();
+        }
     }
 }

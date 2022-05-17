@@ -13,5 +13,7 @@ public interface UserService {
 
     Result<UserInfo> save(UserInfo userInfo);
 
-    Result<UserInfo> delete(UserInfo userInfo);
+    Result<?> delete(UserInfo userInfo);
+
+    Result<?> check(UserInfo userInfo);
 }

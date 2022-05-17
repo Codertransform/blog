@@ -45,9 +45,7 @@
     /*<![CDATA[*/
     //JS
     layui.use(['element', 'layer', 'util', 'table'], function(){
-        var element = layui.element
-            ,layer = layui.layer
-            ,util = layui.util
+        var layer = layui.layer
             ,table = layui.table
             ,$ = layui.$;
 
@@ -72,7 +70,7 @@
                 {field: 'signature', title: '个性签名', width: 200},
                 {field: 'registerTime', title: '注册时间', width: 200, sort: true},
                 {field: 'loginTime', title: '登录时间', width: 200, sort: true},
-                {field: 'enable', title: '账号状态', width: 100},
+                {field: 'able', title: '账号状态', width: 100},
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
             ]],
             toolbar: 'default',
@@ -86,12 +84,48 @@
         table.on('tool(admin)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            var tr = obj.tr;
+            // var tr = obj.tr;
 
             if (layEvent === 'check'){
-                /*layer.confirm('请选择下面的审核操作', function (index) {
+                layer.confirm('请选择下面的操作', {
+                    icon: 3,
+                    btn: ['启用','封禁'],
+                    title: '提示'
+                }, function (index) {
+                    $.ajax({
+                        url: '/admin/check',
+                        data: {'id': data.id,'enable': 0},
+                        type: 'POST',
+                        success: function (res){
+                            if (res.code === 0){
+                                layer.msg(res.message, {icon:1, time: 1000}, function () {
+                                    obj.update({
+                                        'able': res.data.able
+                                    });
+                                    layer.close(index);
+                                })
+                            }
+                        }
+                    })
+                }, function (index) {
                     console.log(index);
-                })*/
+                    $.ajax({
+                        url: '/admin/check',
+                        data: {'id': data.id,'enable': 1},
+                        type: 'POST',
+                        success: function (res){
+                            if (res.code === 0){
+                                layer.msg(res.message, {icon:1, time: 1000}, function () {
+                                    obj.update({
+                                        'able': res.data.able
+                                    });
+                                    layer.close(index);
+                                })
+                            }
+                        }
+                    })
+                })
+
             }else if (layEvent === 'del'){
                 layer.confirm('确定删除么？', function(index){
                     //向服务端发送删除指令
@@ -100,7 +134,6 @@
                         type: 'POST',
                         data: {'id': data.id},
                         success: function (res){
-                            console.log(res.code === 0);
                             if (res.code === 0){
                                 layer.msg(res.message, {icon:1, time: 1000}, function () {
                                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
