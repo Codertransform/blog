@@ -108,7 +108,6 @@
                         }
                     })
                 }, function (index) {
-                    console.log(index);
                     $.ajax({
                         url: '/admin/check',
                         data: {'id': data.id,'enable': 1},
@@ -144,11 +143,38 @@
                     })
                 });
             }else if (layEvent === 'edit'){
-                layer.open({
+                var index = layer.open({
                     type:2,
                     area:['1000px','700px'],
                     title:'管理员信息编辑',
-                    content:'/admin/edit?id=' + data.id
+                    content:'/admin/edit?id=' + data.id,
+                    btn: ['立即提交', '重置'],
+                    btnAlign: '1',
+                    cancel: function () {
+                        layer.close(index);
+                    },
+                    yes: function (index) {
+                        console.log(index);
+                        var res = window["layui-layer-iframe" + index].callbackdata();
+                        console.log(res);
+                        /*$.ajax({
+                            url:'/admin/save',
+                            type:'POST',
+                            data: JSON.stringify(res),
+                            success: function (result) {
+                                layer.msg(res.message, {icon:1, time: 1000}, function () {
+                                    layer.close(index);
+                                    //tableIns1  为layui数据表格
+                                    tableIns1.reload({
+                                        page:{
+                                            curr:1   //表格重载的时候将查询页数设为第一页
+                                        }
+                                    })
+                                })
+                            }
+                        });*/
+                        return false;
+                    }
                 })
                 // obj.update({
                 //     id: obj.data.id,

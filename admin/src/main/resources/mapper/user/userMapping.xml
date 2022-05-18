@@ -46,7 +46,7 @@
         from `sys_admin` u
         left join sys_admin_role ar on ar.admin_id = u.id
         left join sys_role r on r.id = ar.role_id
-        where u.enable = 0
+        where 1 = 1
         <if test="id != null and id != ''">
             and u.id = #{id}
         </if>
