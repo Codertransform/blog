@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mikes.admin.dao.user.RoleMapper">
+
+    <select id="findList" resultType="Role">
+        select
+            r.id as "id",
+            r.name as "name",
+            r.flag as "flag",
+            r.description as "desc"
+        from `sys_role` r
+        where 1 = 1
+        <if test="name != null and name != ''">
+            and r.name like CONCAT('%',#{name},'%')
+        </if>
+        order by id
+    </select>
+
+    <select id="get" resultType="UserInfo">
+        select
+            r.id as "id",
+            r.name as "name",
+            r.flag as "flag",
+            r.description as "desc"
+        from `sys_role` r
+        where 1 = 1
+        <if test="id != null and id != ''">
+            and r.id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            and r.name = #{name}
+        </if>
+    </select>
+
+    <insert id="insert">
+        insert into sys_role (
+            name,
+            flag,
+            description
+        ) values (
+            #{name},
+            #{flag},
+            #{description}
+        )
+    </insert>
+
+    <update id="update">
+        update sys_role set
+            name = #{name},
+            flag = #{flag},
+            description = #{description}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from sys_role where id=#{id}
+    </delete>
+</mapper>

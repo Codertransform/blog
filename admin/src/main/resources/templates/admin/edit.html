@@ -11,7 +11,7 @@
 </style>
 <body>
 <div class="layui-layout layui-layout-admin">
-    <form class="layui-form layui-col-md10 layui-col-md-offset1" th:action="@{/admin/save}" th:method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <form class="layui-form layui-col-md10 layui-col-md-offset1"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
         <input type="hidden" id="id" name="id" th:value="${userInfo.id}">
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">用户名：</label>
@@ -47,7 +47,7 @@
         <div class="layui-form-item">
             <label for="birthday" class="layui-form-label">出生日期：</label>
             <div class="layui-input-block">
-                <input id="birthday" type="text" class="layui-input" name="birthday" th:value="${userInfo.birthday}">
+                <input id="birthday" type="text" class="layui-input" name="birthday" th:value="${userInfo.birthday}" autocomplete="off">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
@@ -65,8 +65,7 @@
     //JS
     layui.use(['layer', 'form', 'laydate'], function(){
         var form = layui.form,
-            laydate = layui.laydate,
-            $ = layui.$;
+            laydate = layui.laydate;
 
         laydate.render({
             elem: '#birthday'
@@ -111,20 +110,23 @@
             }
         });
 
-        var callbackdata = function (){
-            return {
-                id: $("#id").val(),
-                username: $("#username").val(),
-                nickname: $("#nickname").val(),
-                sex: $("input[name='sex']:checked").val(),
-                phone: $("#phone").val(),
-                email: $("#email").val(),
-                birthday: $("#birthday").val(),
-                signature: $("#signature").val()
-            };
-        }
     });
     /*]]>*/
+</script>
+<script type="text/javascript">
+    var $ = layui.$;
+    var callbackdata = function (){
+        return {
+            id: $("#id").val(),
+            username: $("#username").val(),
+            nickname: $("#nickname").val(),
+            sex: $("input[name='sex']:checked").val(),
+            phone: $("#phone").val(),
+            email: $("#email").val(),
+            birthday: $("#birthday").val(),
+            signature: $("#signature").val()
+        };
+    }
 </script>
 </body>
 </html>

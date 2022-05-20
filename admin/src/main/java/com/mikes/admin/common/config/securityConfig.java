@@ -49,6 +49,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/404").permitAll()
                 .antMatchers("/admin/userInfo").permitAll()
                 .antMatchers("/admin/account").permitAll()
+                .antMatchers("/role/infos").permitAll()
                 .anyRequest() //任何其它请求
                 .authenticated() //都需要身份认证
                 .and()
@@ -74,13 +75,13 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web){
         //配置静态文件不需要认证
         web.ignoring().antMatchers("/static/**");
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider);
 //        super.configure(auth);
     }

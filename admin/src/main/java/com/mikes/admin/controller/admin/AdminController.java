@@ -20,6 +20,7 @@ public class AdminController {
 
     @RequestMapping(value = {"","/"})
     public String index(UserInfo userInfo, Model model){
+        model.addAttribute("title", "管理员信息");
         model.addAttribute("userInfo", userInfo);
         return "admin/index";
     }
