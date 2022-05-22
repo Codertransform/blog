@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : localhost
 Source Server Version : 50718
-Source Host           : 127.0.0.1:3306
+Source Host           : localhost:3306
 Source Database       : blog
 
 Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2022-05-16 17:38:47
+Date: 2022-05-23 00:17:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -56,7 +56,7 @@ CREATE TABLE `sys_admin` (
 -- ----------------------------
 INSERT INTO `sys_admin` VALUES ('1', 'gxhbj', '$2a$10$2uCTkkItMcnA.kpKhn9YsOVgzHz8HSHOqGHhToqdRewpFtozS9K8e', '环保局', '0', '13556789876', '13556789876@163.com', null, '2020-08-12 22:57:45', '2020-10-26 23:53:38', null, '1');
 INSERT INTO `sys_admin` VALUES ('2', 'test', '', '测试', '0', '15769271840', '18204099093@163.com', null, '2020-08-24 09:37:46', '2020-09-14 11:20:06', null, '1');
-INSERT INTO `sys_admin` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', '1992-09-08', '2020-04-26 00:00:00', '2022-05-16 14:50:20', '拥有至高无上的权力', '0');
+INSERT INTO `sys_admin` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', '1992-09-08', '2020-04-26 00:00:00', '2022-05-22 23:08:39', '拥有至高无上的权力', '0');
 
 -- ----------------------------
 -- Table structure for sys_admin_role
@@ -77,6 +77,22 @@ CREATE TABLE `sys_admin_role` (
 -- Records of sys_admin_role
 -- ----------------------------
 INSERT INTO `sys_admin_role` VALUES ('1', '3', '1');
+
+-- ----------------------------
+-- Table structure for sys_data
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_data`;
+CREATE TABLE `sys_data` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `data_type` varchar(15) NOT NULL COMMENT '数据类型',
+  `key` varchar(15) NOT NULL COMMENT '键名',
+  `value` varchar(30) NOT NULL COMMENT '值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典';
+
+-- ----------------------------
+-- Records of sys_data
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -193,3 +209,48 @@ CREATE TABLE `sys_role_permission` (
 -- ----------------------------
 -- Records of sys_role_permission
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `username` varchar(20) NOT NULL COMMENT '用户名',
+  `password` varchar(64) NOT NULL COMMENT '密码',
+  `nickname` varchar(20) NOT NULL COMMENT '昵称',
+  `sex` char(2) NOT NULL COMMENT '性别',
+  `phone` varchar(18) NOT NULL COMMENT '电话',
+  `email` varchar(25) NOT NULL COMMENT '邮箱',
+  `birthday` date DEFAULT NULL COMMENT '出生日期',
+  `register_time` datetime NOT NULL COMMENT '注册时间',
+  `login_time` datetime DEFAULT NULL COMMENT '登录时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+
+-- ----------------------------
+-- Records of sys_user
+-- ----------------------------
+INSERT INTO `sys_user` VALUES ('1', 'gxhbj', '$2a$10$2uCTkkItMcnA.kpKhn9YsOVgzHz8HSHOqGHhToqdRewpFtozS9K8e', '环保局', '1', '13556789876', '13556789876@163.com', null, '2020-08-12 22:57:45', '2020-10-26 23:53:38');
+INSERT INTO `sys_user` VALUES ('2', 'test', '', '测试', '1', '15769271840', '18204099093@163.com', null, '2020-08-24 09:37:46', '2020-09-14 11:20:06');
+INSERT INTO `sys_user` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', null, '2020-04-26 00:00:00', '2021-02-01 21:20:18');
+
+-- ----------------------------
+-- Table structure for sys_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL COMMENT '用户id',
+  `role_id` int(10) NOT NULL COMMENT '角色id',
+  PRIMARY KEY (`id`),
+  KEY `USER_ROLE_ID` (`role_id`) USING BTREE,
+  KEY `ROLE_USER_ID` (`user_id`) USING BTREE,
+  CONSTRAINT `sys_user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sys_user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES ('1', '3', '1');
