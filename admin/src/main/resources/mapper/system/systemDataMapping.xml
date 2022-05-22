@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mikes.admin.dao.system.SystemDataMapper">
+
+    <select id="findList" resultType="Data">
+        select
+            d.id as "id",
+            d.data_type as "dataType",
+            d.`key` as "key",
+            d.`value` as "value"
+        from `sys_data` d
+        where 1 = 1
+        <if test="dataType != null and dataType != ''">
+            and d.data_type like CONCAT('%',#{dataType},'%')
+        </if>
+        order by id
+    </select>
+
+    <select id="get" resultType="Data">
+        select
+            d.id as "id",
+            d.data_type as "dataType",
+            d.`key` as "key",
+            d.`value` as "value"
+        from `sys_data` d
+        where 1 = 1
+        <if test="id != null and id != ''">
+            and d.id = #{id}
+        </if>
+        <if test="key != null and key != ''">
+            and d.`key` = #{key}
+        </if>
+    </select>
+
+    <insert id="insert">
+        insert into sys_data (
+            data_type,
+            `key`,
+            `value`
+        ) values (
+            #{dataType},
+            #{key},
+            #{value}
+        )
+    </insert>
+
+    <update id="update">
+        update sys_data set
+            data_type = #{dataType},
+            `key` = #{key},
+            `value` = #{value}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from sys_data where id=#{id}
+    </delete>
+</mapper>

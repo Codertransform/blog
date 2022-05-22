@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <link rel="stylesheet" th:href="@{../static/lib/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{../static/css/base.css}"/>
+</head>
+<style>
+    .layui-form{margin-top: 3rem;}
+</style>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <form class="layui-form layui-col-md10 layui-col-md-offset1"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <input type="hidden" id="id" name="id" th:value="${role.id}">
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">角色名：</label>
+            <div class="layui-input-block">
+                <input id="name" type="text" name="name" placeholder="请输入角色名" th:value="${role.name}" lay-verify="username" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色标志：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="flag" value="0" title="" th:checked="${role.flag eq '0'}">
+                <input type="radio" name="flag" value="1" title="" th:checked="${role.flag eq '1'}">
+                <input type="radio" name="flag" value="1" title="" th:checked="${role.flag eq '1'}">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label for="description" class="layui-form-label">请填写描述</label>
+            <div class="layui-input-block">
+                <textarea id="description" name="description" placeholder="请输入内容" class="layui-textarea" th:text="${role.description}"></textarea>
+            </div>
+        </div>
+        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+    </form>
+</div>
+<script type="text/javascript" th:src="@{../static/lib/layui/layui.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    //JS
+    layui.use(['layer', 'form', 'laydate'], function(){
+        var form = layui.form,
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#birthday'
+            ,calendar: true
+        });
+
+        form.verify({
+            name: function(value){ //value：表单的值、item：表单的DOM对象
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^_)|(__)|(_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+
+                //如果不想自动弹出默认提示框，可以直接返回 true，这时你可以通过其他任意方式提示（v2.5.7 新增）
+                if(value === 'xxx'){
+                    alert('用户名不能为敏感词');
+                    return true;
+                }
+            }
+        });
+
+    });
+    /*]]>*/
+</script>
+<script type="text/javascript">
+    var $ = layui.$;
+    var callbackdata = function (){
+        return {
+            id: $("#id").val(),
+            name: $("#name").val(),
+            flag: $("input[name=flag]:checked").val(),
+            description: $("#description").val()
+        };
+    }
+</script>
+</body>
+</html>

@@ -23,16 +23,26 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role get(Role role) {
-        return null;
+        return roleMapper.get(role);
     }
 
     @Override
-    public int save(Role role) {
-        return 0;
+    public Result<Role> save(Role role) {
+        if (role.getId() != 0){
+            roleMapper.update(role);
+            return Result.success(role);
+        }else {
+            roleMapper.insert(role);
+            return Result.success(role);
+        }
     }
 
     @Override
-    public int delete(Role role) {
-        return 0;
+    public Result<?> delete(Role role) {
+        if (roleMapper.delete(role) != 0){
+            return Result.success();
+        }else {
+            return Result.failure();
+        }
     }
 }

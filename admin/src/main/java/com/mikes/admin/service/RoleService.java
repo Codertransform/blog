@@ -11,7 +11,7 @@ public interface RoleService {
 
     Role get(Role role);
 
-    int save(Role role);
+    Result<Role> save(Role role);
 
-    int delete(Role role);
+    Result<?> delete(Role role);
 }

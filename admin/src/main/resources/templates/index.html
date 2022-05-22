@@ -35,11 +35,11 @@
     /*<![CDATA[*/
     //JS
     layui.use(['element', 'layer', 'util', 'table'], function(){
-        var element = layui.element
-            ,layer = layui.layer
-            ,util = layui.util
-            ,table = layui.table
-            ,$ = layui.$;
+        var element = layui.element,
+            layer = layui.layer,
+            util = layui.util,
+            table = layui.table,
+            $ = layui.$;
 
         //头部事件
         util.event('lay-header-event', {
@@ -59,9 +59,8 @@
             }
         });
 
-        var layid = location.hash.replace(/^#nav=/, '');
-
         element.on('nav(menu)', function (elem) {
+            var layid = elem.context.hash.replace(/^#nav=/, '');
             var href = elem.context.origin + elem.context.dataset.href;
             var title = elem.context.innerText;
             element.tabAdd('tabs', {
@@ -74,28 +73,8 @@
 
             //监听Tab切换，以改变地址hash值
             element.on('tab(tabs)', function(){
-                location.hash = 'tabs='+ this.getAttribute('lay-id');
+                location.hash = 'nav='+ this.getAttribute('lay-id');
             });
-        })
-
-        table.render({
-            elem: '#demo',
-            height: 312,
-            url: '/demo/table/userInfo/', //数据接口
-            page: true, //开启分页
-            cols: [[
-                //表头
-                {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
-                {field: 'username', title: '用户名', width:120},
-                {field: 'sex', title: '性别', width:100},
-                {field: 'city', title: '城市', width:200},
-                {field: 'sign', title: '签名', width: 350},
-                {field: 'experience', title: '积分', width: 120, sort: true},
-                {field: 'score', title: '评分', width: 120, sort: true},
-                {field: 'classify', title: '职业', width: 150},
-                {field: 'wealth', title: '财富', width: 200, sort: true},
-                {title: '操作', fixed: 'right', width:240, align:'center', toolbar: '#barDemo'}
-            ]]
         })
 
     });

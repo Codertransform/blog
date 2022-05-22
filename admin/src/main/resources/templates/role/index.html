@@ -17,12 +17,6 @@
                         <input id="name" type="text" name="name" th:value="${role.name}" placeholder="请输入角色名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-col-md2">
-                    <label for="flag" class="layui-form-label">角色标志</label>
-                    <div class="layui-input-block">
-                        <input id="flag" type="text" name="flag" th:value="${role.flag}" placeholder="请输入角色标志" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
                 <div class="layui-col-md3">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
@@ -48,8 +42,8 @@
         var tableIns = table.render({
             elem: '#demo',
             height: 312,
-            url: '/role/Infos', //数据接口
-            where: {'name': name, 'flag': flag},
+            url: '/role/infos', //数据接口
+            where: {'name': name},
             method: 'post',
             page: true, //开启分页
             cols: [[
@@ -57,7 +51,7 @@
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
                 {field: 'name', title: '角色名', width:120},
                 {field: 'flag', title: '角色标志', width:150},
-                {field: 'desc', title: '描述', width:100},
+                {field: 'description', title: '描述', width:200},
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
             ]],
             toolbar: 'default',
@@ -73,49 +67,18 @@
             var layEvent = obj.event;
             // var tr = obj.tr;
 
-            if (layEvent === 'check'){
-                layer.confirm('请选择下面的操作', {
-                    icon: 3,
-                    btn: ['启用','封禁'],
-                    title: '提示'
-                }, function (index) {
-                    $.ajax({
-                        url: '/admin/check',
-                        data: {'id': data.id,'enable': 0},
-                        type: 'POST',
-                        success: function (res){
-                            if (res.code === 0){
-                                layer.msg(res.message, {icon:1, time: 1000}, function () {
-                                    obj.update({
-                                        'able': res.data.able
-                                    });
-                                    layer.close(index);
-                                })
-                            }
-                        }
-                    })
-                }, function (index) {
-                    $.ajax({
-                        url: '/admin/check',
-                        data: {'id': data.id,'enable': 1},
-                        type: 'POST',
-                        success: function (res){
-                            if (res.code === 0){
-                                layer.msg(res.message, {icon:1, time: 1000}, function () {
-                                    obj.update({
-                                        'able': res.data.able
-                                    });
-                                    layer.close(index);
-                                })
-                            }
-                        }
-                    })
+            if (layEvent === 'detail'){
+                layer.open({
+                    type:2,
+                    area:['1000px','700px'],
+                    title:'查看角色信息',
+                    content:'/role/detail?id=' + data.id
                 })
             }else if (layEvent === 'del'){
                 layer.confirm('确定删除么？', function(index){
                     //向服务端发送删除指令
                     $.ajax({
-                        url: '/admin/delete',
+                        url: '/role/delete',
                         type: 'POST',
                         data: {'id': data.id},
                         success: function (res){
@@ -132,8 +95,8 @@
                 var index = layer.open({
                     type:2,
                     area:['1000px','700px'],
-                    title:'管理员信息编辑',
-                    content:'/admin/edit?id=' + data.id,
+                    title:'角色信息编辑',
+                    content:'/role/edit?id=' + data.id,
                     btn: ['提交', '重置'],
                     btnAlign: '1',
                     cancel: function () {
@@ -142,7 +105,7 @@
                     yes: function (index) {
                         var res = window["layui-layer-iframe" + index].callbackdata();
                         $.ajax({
-                            url:'/admin/save',
+                            url:'/role/save',
                             type:'POST',
                             data: res,
                             success: function (result) {
@@ -169,13 +132,13 @@
     /*]]>*/
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 
     <!-- 这里同样支持 laytpl 语法，如： -->
     {{#  if(d.auth > 2){ }}
-    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
     {{#  } }}
 </script>
 </body>

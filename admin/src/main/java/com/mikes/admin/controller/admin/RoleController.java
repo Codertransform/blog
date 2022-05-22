@@ -25,6 +25,19 @@ public class RoleController {
         return "role/index";
     }
 
+    @RequestMapping(value = "/edit")
+    public String edit(Role role, Model model){
+        model.addAttribute("title", "角色信息修改");
+        model.addAttribute("role", roleService.get(role));
+        return "role/edit";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/save")
+    public Result<Role> save(Role role){
+        return roleService.save(role);
+    }
+
     @ResponseBody
     @RequestMapping(value = "/infos")
     public Result<List<Role>> findInfos(Role role){

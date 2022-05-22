@@ -8,7 +8,7 @@
             r.id as "id",
             r.name as "name",
             r.flag as "flag",
-            r.description as "desc"
+            r.description as "description"
         from `sys_role` r
         where 1 = 1
         <if test="name != null and name != ''">
@@ -17,19 +17,16 @@
         order by id
     </select>
 
-    <select id="get" resultType="UserInfo">
+    <select id="get" resultType="Role">
         select
             r.id as "id",
             r.name as "name",
             r.flag as "flag",
-            r.description as "desc"
+            r.description as "description"
         from `sys_role` r
         where 1 = 1
         <if test="id != null and id != ''">
             and r.id = #{id}
-        </if>
-        <if test="name != null and name != ''">
-            and r.name = #{name}
         </if>
     </select>
 

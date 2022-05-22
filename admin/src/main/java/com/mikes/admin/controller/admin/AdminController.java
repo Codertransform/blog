@@ -55,11 +55,4 @@ public class AdminController {
     public Result<?> check(UserInfo userInfo){
         return userService.check(userInfo);
     }
-
-    @ResponseBody
-    @RequestMapping(value = "/account")
-    public String test(@RequestParam Account account){
-        System.out.println("枚举序号：" + account.ordinal() + "枚举名：" + account.name() + "message:" + account.getMessage());
-        return "枚举序号：" + account.ordinal() + "枚举名：" + account.name() + "message:" + account.getMessage();
-    }
 }

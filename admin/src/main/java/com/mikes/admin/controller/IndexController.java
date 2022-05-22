@@ -19,13 +19,15 @@ public class IndexController {
     }
 
     @RequestMapping(value = {"","/"})
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String index(Model model){
+        model.addAttribute("title", "Blog管理系统");
         return "index";
     }
 
     @RequestMapping(value = "/workspace")
     public String workSpace(Model model){
+        model.addAttribute("title", "欢迎页");
         return "workspace";
     }
 }
