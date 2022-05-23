@@ -69,12 +69,7 @@
             page: true, //开启分页
             cols: [[
                 //表头
-                {
-                    templet:"#checkbd",
-                    title: "<input type='checkbox' name='siam_all' title='' lay-skin='primary' lay-filter='siam_all'>",
-                    width: 60,
-                    fixed: 'left'
-                },
+                {type: "checkbox", width: 60, fixed: 'left'},
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
                 {field: 'username', title: '用户名', width:120},
                 {field: 'nickname', title: '昵称', width:150},
@@ -88,17 +83,9 @@
                 {field: 'able', title: '账号状态', width: 100},
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
             ]],
-            toolbar: 'default'
+            toolbar: 'default',
+            defaultToolbar: ['filter', 'print', 'exports']
         })
-
-        //实现全选功能
-        form.on("checkbox(siam_all)", function () {
-            var status = $(this).prop("checked");
-            $.each($("input[name=siam_one]"), function (i, value) {
-                $(this).prop("checked", status);
-            });
-            form.render();
-        });
 
         table.on('tool(admin)', function (obj) {
             var data = obj.data;
@@ -197,9 +184,13 @@
                     })
                     break;
                 case 'LAYTABLE_TIPS':
-                    layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                    layer.msg('Hi，头部工具栏扩展的右侧图标。');
                     break;
             }
+        })
+
+        table.on('toolbar(admin)', function (obj) {
+            console.log(obj.event)
         })
 
     });
