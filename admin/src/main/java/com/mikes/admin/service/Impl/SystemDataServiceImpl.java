@@ -27,8 +27,11 @@ public class SystemDataServiceImpl implements SystemDataService {
     }
 
     @Override
-    public int save(Data data) {
-        return 0;
+    public Result<Data> save(Data data) {
+        if (data.getId() != 0){
+
+        }
+        return null;
     }
 
     @Override

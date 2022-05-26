@@ -14,4 +14,6 @@ public interface RoleService {
     Result<Role> save(Role role);
 
     Result<?> delete(Role role);
+
+    List<Role> findAll(Role role);
 }

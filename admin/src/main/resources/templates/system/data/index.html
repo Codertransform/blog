@@ -39,35 +39,25 @@
     <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
     {{#  } }}
 </script>
-<script type="text/html" id="check">
-    {{#  if (d.del_status === 0){ }}
-    <input type="checkbox" name="siam_one" title="" lay-skin="primary" data-id = "{{ d.id }}">
-    {{#  } }}
-</script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     //JS
-    layui.use(['element', 'layer', 'form', 'table'], function(){
+    layui.use(['element', 'layer', 'table'], function(){
         var layer = layui.layer,
             table = layui.table,
-            form = layui.form,
             $ = layui.$,
             dataType = [[${data.dataType}]];
 
         var tableIns = table.render({
             elem: '#demo',
             height: 312,
-            url: '/system/data/datas', //数据接口
+            url: '/system/data/getDatas', //数据接口
             where: {'dataType': dataType},
             method: 'post',
             page: true, //开启分页
             cols: [[
                 //表头
-                {
-                    templet:"#check",
-                    title: "<input type='checkbox' name='siam_all' title='' lay-skin='primary' lay-filter='siam_all'>",
-                    width: 60,
-                },
+                {type: "checkbox", width: 60, fixed: 'left'},
                 {field: 'id', title: 'ID', width:200, align:'center', sort: true, fixed: 'left'},
                 {field: 'dataType', title: '字典类型', width:220, align:'center'},
                 {field: 'key', title: '键名', width:250, align:'center'},
@@ -75,116 +65,148 @@
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
             ]],
             toolbar: 'default',
-            defaultToolbar: ['filter', 'print', 'exports', {
-                title: '提示' //标题
-                ,layEvent: 'LAYTABLE_TIPS' //事件名，用于 toolbar 事件中使用
-                ,icon: 'layui-icon-tips' //图标类名
-            }]
+            defaultToolbar: ['filter', 'print', 'exports']
         })
-
-        form.on("checkbox(siam_all)", function () {
-            var status = $(this).prop("checked");
-            $.each($("input[name=siam_one]"), function (i, value) {
-                $(this).prop("checked", status);
-            });
-            form.render();
-        });
 
         table.on('tool(datas)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             // var tr = obj.tr;
 
-            if (layEvent === 'check'){
-                layer.confirm('请选择下面的操作', {
-                    icon: 3,
-                    btn: ['启用','封禁'],
-                    title: '提示'
-                }, function (index) {
-                    $.ajax({
-                        url: '/admin/check',
-                        data: {'id': data.id,'enable': 0},
-                        type: 'POST',
-                        success: function (res){
-                            if (res.code === 0){
-                                layer.msg(res.message, {icon:1, time: 1000}, function () {
-                                    obj.update({
-                                        'able': res.data.able
-                                    });
-                                    layer.close(index);
-                                })
-                            }
-                        }
-                    })
-                }, function (index) {
-                    $.ajax({
-                        url: '/admin/check',
-                        data: {'id': data.id,'enable': 1},
-                        type: 'POST',
-                        success: function (res){
-                            if (res.code === 0){
-                                layer.msg(res.message, {icon:1, time: 1000}, function () {
-                                    obj.update({
-                                        'able': res.data.able
-                                    });
-                                    layer.close(index);
-                                })
-                            }
-                        }
-                    })
-                })
-
-            }else if (layEvent === 'del'){
-                layer.confirm('确定删除么？', function(index){
-                    //向服务端发送删除指令
-                    $.ajax({
-                        url: '/admin/delete',
-                        type: 'POST',
-                        data: {'id': data.id},
-                        success: function (res){
-                            if (res.code === 0){
-                                layer.msg(res.message, {icon:1, time: 1000}, function () {
-                                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                                    parent.layer.close(index);
-                                })
-                            }
-                        }
-                    })
-                });
-            }else if (layEvent === 'edit'){
-                var index = layer.open({
-                    type:2,
-                    area:['1000px','700px'],
-                    title:'管理员信息编辑',
-                    content:'/admin/edit?id=' + data.id,
-                    btn: ['提交', '重置'],
-                    btnAlign: '1',
-                    cancel: function () {
-                        layer.close(index);
-                    },
-                    yes: function (index) {
-                        var res = window["layui-layer-iframe" + index].callbackdata();
+            switch (layEvent) {
+                case 'check':
+                    layer.confirm('请选择下面的操作', {
+                        icon: 3,
+                        btn: ['启用', '封禁'],
+                        title: '提示'
+                    }, function (index) {
                         $.ajax({
-                            url:'/admin/save',
-                            type:'POST',
-                            data: res,
-                            success: function (result) {
-                                layer.msg(result.message, {icon:1, time: 1000}, function () {
-                                    layer.close(index);
-                                    //tableIns  为layui数据表格
-                                    tableIns.reload({
-                                        page:{
-                                            curr:1   //表格重载的时候将查询页数设为第一页
-                                        }
+                            url: '/admin/check',
+                            data: {'id': data.id, 'enable': 0},
+                            type: 'POST',
+                            success: function (res) {
+                                if (res.code === 0) {
+                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                                        obj.update({
+                                            'able': res.data.able
+                                        });
+                                        layer.close(index);
                                     })
-                                })
+                                }
                             }
-                        });
-                        return false;
-                    }
-                })
-            }else if (layEvent === 'LAYTABLE_TIPS') {
-                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                        })
+                    }, function (index) {
+                        $.ajax({
+                            url: '/admin/check',
+                            data: {'id': data.id, 'enable': 1},
+                            type: 'POST',
+                            success: function (res) {
+                                if (res.code === 0) {
+                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                                        obj.update({
+                                            'able': res.data.able
+                                        });
+                                        layer.close(index);
+                                    })
+                                }
+                            }
+                        })
+                    })
+                    break;
+                case 'del':
+                    layer.confirm('确定删除么？', function (index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            url: '/admin/delete',
+                            type: 'POST',
+                            data: {'id': data.id},
+                            success: function (res) {
+                                if (res.code === 0) {
+                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                        parent.layer.close(index);
+                                    })
+                                }
+                            }
+                        })
+                    });
+                    break;
+                case 'edit':
+                    var index = layer.open({
+                        type: 2,
+                        area: ['1000px', '700px'],
+                        title: '管理员信息编辑',
+                        content: '/admin/edit?id=' + data.id,
+                        btn: ['提交', '重置'],
+                        btnAlign: '1',
+                        cancel: function () {
+                            layer.close(index);
+                        },
+                        yes: function (index) {
+                            var res = window["layui-layer-iframe" + index].callbackdata();
+                            $.ajax({
+                                url: '/admin/save',
+                                type: 'POST',
+                                data: res,
+                                success: function (result) {
+                                    layer.msg(result.message, {icon: 1, time: 1000}, function () {
+                                        layer.close(index);
+                                        //tableIns  为layui数据表格
+                                        tableIns.reload({
+                                            page: {
+                                                curr: 1   //表格重载的时候将查询页数设为第一页
+                                            }
+                                        })
+                                    })
+                                }
+                            });
+                            return false;
+                        }
+                    })
+                    break;
+                case 'LAYTABLE_TIPS':
+                    layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                    break;
+            }
+        })
+
+        table.on('toolbar(datas)', function (obj) {
+            var layEvent = obj.event;
+
+            switch (layEvent) {
+                case 'add':
+                    layer.open({
+                        type: 2,
+                        area: ['1000px', '700px'],
+                        title: '管理员信息编辑',
+                        content: '/system/data/add',
+                        btn: ['提交', '重置'],
+                        btnAlign: '1',
+                        cancel: function () {
+                            layer.close(index);
+                        },
+                        yes: function (index) {
+                            var res = window["layui-layer-iframe" + index].callbackdata();
+                            $.ajax({
+                                url: '/system/data/save',
+                                type: 'POST',
+                                data: res,
+                                success: function (result) {
+                                    layer.msg(result.message, {icon: 1, time: 1000}, function () {
+                                        layer.close(index);
+                                        //tableIns  为layui数据表格
+                                        tableIns.reload({
+                                            page: {
+                                                curr: 1   //表格重载的时候将查询页数设为第一页
+                                            }
+                                        })
+                                    })
+                                }
+                            });
+                            return false;
+                        }
+                    })
+                    break;
             }
         })
 

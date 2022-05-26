@@ -29,6 +29,7 @@ public class RoleController {
     public String edit(Role role, Model model){
         model.addAttribute("title", "角色信息修改");
         model.addAttribute("role", roleService.get(role));
+        model.addAttribute("roleList", roleService.findAll(new Role()));
         return "role/edit";
     }
 

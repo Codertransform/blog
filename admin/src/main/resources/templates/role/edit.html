@@ -22,9 +22,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">角色标志：</label>
             <div class="layui-input-block">
-                <input type="radio" name="flag" value="0" title="" th:checked="${role.flag eq '0'}">
-                <input type="radio" name="flag" value="1" title="" th:checked="${role.flag eq '1'}">
-                <input type="radio" name="flag" value="1" title="" th:checked="${role.flag eq '1'}">
+                <input type="radio" name="flag" th:each="r : ${roleList}" th:value="${r.id}" th:title="${r.flag}" th:checked="${r.flag eq role.flag}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

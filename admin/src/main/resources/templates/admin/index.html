@@ -85,6 +85,7 @@
         })
 
         table.on('tool(admin)', function (obj) {
+            console.log(obj);
             var data = obj.data;
             var layEvent = obj.event;
             // var tr = obj.tr;
@@ -184,26 +185,34 @@
         })
 
         table.on('toolbar(admin)', function (obj) {
+            var layEvent = obj.event;
             var checkStatus = table.checkStatus(obj.config.id);
-            switch (obj.event) {
+            switch (layEvent) {
                 case 'delete':
                     var ids = [];
                     $.each(checkStatus.data, function (key, value) {
-                        console.log(value.id);
                         ids.push(value.id);
-                    })
-                    $.ajax({
-                        url: '/admin/idsDelete',
-                        type: 'post',
-                        data: {'ids':ids},
-                        success: function (res) {
-                            if (res.code === 0){
-                                layer.msg(res.message, {icon: 1, time: 1000}, function () {
-                                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                                })
+                    });
+                    layer.confirm('确定删除么？', function (index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            url: '/admin/idsDelete',
+                            type: 'POST',
+                            data: {'ids':ids},
+                            success: function (res) {
+                                if (res.code === 0) {
+                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                                        layer.close(index);
+                                        tableIns.reload({
+                                            page: {
+                                                curr: obj.config.page.curr
+                                            }
+                                        })
+                                    })
+                                }
                             }
-                        }
-                    })
+                        })
+                    });
                     break;
             }
         })

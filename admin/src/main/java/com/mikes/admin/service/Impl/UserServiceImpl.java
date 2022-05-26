@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             i = i + userMapper.delete(info);
         }
         if (i != 0){
-            return Result.success();
+            return Result.success(ids);
         }else {
             return Result.failure();
         }

@@ -12,7 +12,7 @@ public interface SystemDataService {
 
     Data get(Data data);
 
-    int save(Data data);
+    Result<Data> save(Data data);
 
     int delete(Data data);
 }
