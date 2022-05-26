@@ -16,4 +16,6 @@ public interface UserService {
     Result<?> delete(UserInfo userInfo);
 
     Result<?> check(UserInfo userInfo);
+
+    Result<?> ids(int[] ids);
 }

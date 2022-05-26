@@ -187,9 +187,22 @@
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'delete':
-                    console.log(checkStatus.data);
+                    var ids = [];
                     $.each(checkStatus.data, function (key, value) {
-                        console.log(key + ":" + value.id);
+                        console.log(value.id);
+                        ids.push(value.id);
+                    })
+                    $.ajax({
+                        url: '/admin/idsDelete',
+                        type: 'post',
+                        data: {'ids':ids},
+                        success: function (res) {
+                            if (res.code === 0){
+                                layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                })
+                            }
+                        }
                     })
                     break;
             }

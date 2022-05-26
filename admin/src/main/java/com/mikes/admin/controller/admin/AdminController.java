@@ -51,6 +51,12 @@ public class AdminController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/idsDelete")
+    public Result<?> ids(@RequestParam("ids[]") int[] ids){
+        return userService.ids(ids);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/check")
     public Result<?> check(UserInfo userInfo){
         return userService.check(userInfo);

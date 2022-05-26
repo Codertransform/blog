@@ -70,4 +70,19 @@ public class UserServiceImpl implements UserService {
             return Result.failure();
         }
     }
+
+    @Override
+    public Result<?> ids(int[] ids) {
+        int i = 0;
+        for (int id : ids){
+            UserInfo info = new UserInfo();
+            info.setId(id);
+            i = i + userMapper.delete(info);
+        }
+        if (i != 0){
+            return Result.success();
+        }else {
+            return Result.failure();
+        }
+    }
 }
