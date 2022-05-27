@@ -17,6 +17,12 @@
                         <input id="dataType" type="text" name="dataType" th:value="${data.dataType}" placeholder="请输入字典类型" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-col-md2">
+                    <label for="key" class="layui-form-label">键名</label>
+                    <div class="layui-input-block">
+                        <input id="key" type="text" name="key" th:value="${data.key}" placeholder="请输入键名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
                 <div class="layui-col-md3">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
@@ -25,12 +31,11 @@
                 </div>
             </form>
         </div>
-        <table id="demo" lay-filter="datas"></table>
+        <table id="datas" lay-filter="datas"></table>
     </div>
 </div>
 <script type="text/javascript" th:src="@{../../static/lib/layui/layui.js}"></script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 
@@ -46,13 +51,14 @@
         var layer = layui.layer,
             table = layui.table,
             $ = layui.$,
-            dataType = [[${data.dataType}]];
+            dataType = [[${data.dataType}]],
+            key = [[${data.key}]];
 
         var tableIns = table.render({
-            elem: '#demo',
+            elem: '#datas',
             height: 312,
             url: '/system/data/getDatas', //数据接口
-            where: {'dataType': dataType},
+            where: {'dataType': dataType, 'key': key},
             method: 'post',
             page: true, //开启分页
             cols: [[
@@ -74,50 +80,11 @@
             // var tr = obj.tr;
 
             switch (layEvent) {
-                case 'check':
-                    layer.confirm('请选择下面的操作', {
-                        icon: 3,
-                        btn: ['启用', '封禁'],
-                        title: '提示'
-                    }, function (index) {
-                        $.ajax({
-                            url: '/admin/check',
-                            data: {'id': data.id, 'enable': 0},
-                            type: 'POST',
-                            success: function (res) {
-                                if (res.code === 0) {
-                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
-                                        obj.update({
-                                            'able': res.data.able
-                                        });
-                                        layer.close(index);
-                                    })
-                                }
-                            }
-                        })
-                    }, function (index) {
-                        $.ajax({
-                            url: '/admin/check',
-                            data: {'id': data.id, 'enable': 1},
-                            type: 'POST',
-                            success: function (res) {
-                                if (res.code === 0) {
-                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
-                                        obj.update({
-                                            'able': res.data.able
-                                        });
-                                        layer.close(index);
-                                    })
-                                }
-                            }
-                        })
-                    })
-                    break;
                 case 'del':
                     layer.confirm('确定删除么？', function (index) {
                         //向服务端发送删除指令
                         $.ajax({
-                            url: '/admin/delete',
+                            url: '/system/data/delete',
                             type: 'POST',
                             data: {'id': data.id},
                             success: function (res) {
@@ -132,11 +99,12 @@
                     });
                     break;
                 case 'edit':
+                    console.log(data.id);
                     var index = layer.open({
                         type: 2,
                         area: ['1000px', '700px'],
-                        title: '管理员信息编辑',
-                        content: '/admin/edit?id=' + data.id,
+                        title: '数据字典信息编辑',
+                        content: '/system/data/edit?id=' + data.id,
                         btn: ['提交', '重置'],
                         btnAlign: '1',
                         cancel: function () {
@@ -145,7 +113,7 @@
                         yes: function (index) {
                             var res = window["layui-layer-iframe" + index].callbackdata();
                             $.ajax({
-                                url: '/admin/save',
+                                url: '/system/data/save',
                                 type: 'POST',
                                 data: res,
                                 success: function (result) {
@@ -175,10 +143,10 @@
 
             switch (layEvent) {
                 case 'add':
-                    layer.open({
+                    var index = layer.open({
                         type: 2,
                         area: ['1000px', '700px'],
-                        title: '管理员信息编辑',
+                        title: '数据字典信息编辑',
                         content: '/system/data/add',
                         btn: ['提交', '重置'],
                         btnAlign: '1',

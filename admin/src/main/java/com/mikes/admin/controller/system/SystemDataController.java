@@ -32,10 +32,23 @@ public class SystemDataController {
         return "system/data/add";
     }
 
+    @RequestMapping(value = "/edit")
+    public String edit(Data data, Model model){
+        model.addAttribute("title", "数据字典-编辑");
+        model.addAttribute("data", dataService.get(data));
+        return "system/data/edit";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/save")
     public Result<Data> save(Data data){
         return dataService.save(data);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/delete")
+    public Result<?> delete(Data data){
+        return dataService.delete(data);
     }
 
     @ResponseBody

@@ -3,30 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
-    <link rel="stylesheet" th:href="@{../static/lib/layui/css/layui.css}"/>
-    <link rel="stylesheet" th:href="@{../static/css/base.css}"/>
+    <link rel="stylesheet" th:href="@{../../../static/lib/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{../../../static/css/base.css}"/>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-main">
         <div class="layui-row">
-            <form  class="layui-form" th:action="@{/admin/}">
+            <form  class="layui-form" th:action="@{/admin/menu}">
                 <div class="layui-col-md2">
-                    <label for="username" class="layui-form-label">用户名</label>
+                    <label for="menuName" class="layui-form-label">菜单名</label>
                     <div class="layui-input-block">
-                        <input id="username" type="text" name="username" th:value="${userInfo.username}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-col-md2">
-                    <label for="phone" class="layui-form-label">电话</label>
-                    <div class="layui-input-block">
-                        <input id="phone" type="text" name="phone" th:value="${userInfo.phone}" placeholder="请输入电话" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-col-md2">
-                    <label for="email" class="layui-form-label">邮箱</label>
-                    <div class="layui-input-block">
-                        <input id="email" type="text" name="email" th:value="${userInfo.email}" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                        <input id="menuName" type="text" name="menuName" th:value="${menu.menuName}" placeholder="请输入菜单名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-col-md3">
@@ -37,10 +25,10 @@
                 </div>
             </form>
         </div>
-        <table id="demo" lay-filter="admin"></table>
+        <table id="demo" lay-filter="menu"></table>
     </div>
 </div>
-<script type="text/javascript" th:src="@{../static/lib/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{../../../static/lib/layui/layui.js}"></script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -52,39 +40,32 @@
     layui.use(['element', 'layer', 'form', 'table'], function(){
         var layer = layui.layer,
             table = layui.table,
-            form = layui.form,
-            $ = layui.$;
-
-        var phone = [[${userInfo.phone}]], username = [[${userInfo.username}]];
+            $ = layui.$,
+            menuName = [[${menu.menuName}]];
 
         var tableIns = table.render({
             elem: '#demo',
             height: 312,
-            url: '/admin/userInfo', //数据接口
-            where: {'phone': phone, 'username': username},
+            url: '/admin/menu/getMenus', //数据接口
+            where: {'menuName': menuName},
             method: 'post',
             page: true, //开启分页
             cols: [[
                 //表头
                 {type: "checkbox", width: 60, fixed: 'left'},
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
-                {field: 'username', title: '用户名', width:120},
-                {field: 'nickname', title: '昵称', width:150},
-                {field: 'sex', title: '性别', width:100},
-                {field: 'phone', title: '电话', width: 150},
-                {field: 'email', title: '邮箱', width: 210},
-                {field: 'birthday', title: '出生日期', width: 150, sort: true},
-                {field: 'signature', title: '个性签名', width: 200},
-                {field: 'registerTime', title: '注册时间', width: 200, sort: true},
-                {field: 'loginTime', title: '登录时间', width: 200, sort: true},
-                {field: 'able', title: '账号状态', width: 100},
+                {field: 'menuName', title: '菜单名称', width:150},
+                {field: 'parentName', title: '上级菜单', width:120},
+                {field: 'link', title: '连接', width:100},
+                {field: 'sort', title: '序号', width: 100},
+                {field: 'disp', title: '状态', width: 100},
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
             ]],
             toolbar: 'default',
             defaultToolbar: ['filter', 'print', 'exports']
         })
 
-        table.on('tool(admin)', function (obj) {
+        table.on('tool(menu)', function (obj) {
             console.log(obj);
             var data = obj.data;
             var layEvent = obj.event;
@@ -184,40 +165,68 @@
             }
         })
 
-        table.on('toolbar(admin)', function (obj) {
+        table.on('toolbar(menu)', function (obj) {
             var layEvent = obj.event;
             var checkStatus = table.checkStatus(obj.config.id);
-            var data = checkStatus.data;
             switch (layEvent) {
-                case 'delete':
-                    if (data.length !== 0){
-                        var ids = [];
-                        $.each(data, function (key, value) {
-                            ids.push(value.id);
-                        });
-                        layer.confirm('确定删除么？', function (index) {
-                            //向服务端发送删除指令
+                case 'add':
+                    var index = layer.open({
+                        type: 2,
+                        area: ['1000px', '700px'],
+                        title: '菜单信息编辑',
+                        content: '/admin/menu/add',
+                        btn: ['提交', '重置'],
+                        btnAlign: '1',
+                        cancel: function () {
+                            layer.close(index);
+                        },
+                        yes: function (index) {
+                            var res = window["layui-layer-iframe" + index].callbackdata();
                             $.ajax({
-                                url: '/admin/idsDelete',
+                                url: '/admin/menu/save',
                                 type: 'POST',
-                                data: {'ids':ids},
-                                success: function (res) {
-                                    if (res.code === 0) {
-                                        layer.msg(res.message, {icon: 1, time: 1000}, function () {
-                                            layer.close(index);
-                                            tableIns.reload({
-                                                page: {
-                                                    curr: obj.config.page.curr
-                                                }
-                                            })
+                                data: res,
+                                success: function (result) {
+                                    layer.msg(result.message, {icon: 1, time: 1000}, function () {
+                                        layer.close(index);
+                                        //tableIns  为layui数据表格
+                                        tableIns.reload({
+                                            page: {
+                                                curr: 1   //表格重载的时候将查询页数设为第一页
+                                            }
                                         })
-                                    }
+                                    })
                                 }
-                            })
-                        });
-                    }else {
-                        layer.msg("请选择一行进行删除",{icon:3, time: 2000});
-                    }
+                            });
+                            return false;
+                        }
+                    })
+                    break;
+                case 'delete':
+                    var ids = [];
+                    $.each(checkStatus.data, function (key, value) {
+                        ids.push(value.id);
+                    });
+                    layer.confirm('确定删除么？', function (index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            url: '/admin/menu/idsDelete',
+                            type: 'POST',
+                            data: {'ids':ids},
+                            success: function (res) {
+                                if (res.code === 0) {
+                                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                                        layer.close(index);
+                                        tableIns.reload({
+                                            page: {
+                                                curr: obj.config.page.curr
+                                            }
+                                        })
+                                    })
+                                }
+                            }
+                        })
+                    });
                     break;
             }
         })

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/role")
+@RequestMapping(value = "/admin/role")
 public class RoleController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class RoleController {
     public String index(Role role, Model model){
         model.addAttribute("title","角色信息");
         model.addAttribute("role",role);
-        return "role/index";
+        return "admin/role/index";
     }
 
     @RequestMapping(value = "/edit")
@@ -30,7 +30,7 @@ public class RoleController {
         model.addAttribute("title", "角色信息修改");
         model.addAttribute("role", roleService.get(role));
         model.addAttribute("roleList", roleService.findAll(new Role()));
-        return "role/edit";
+        return "admin/role/edit";
     }
 
     @ResponseBody

@@ -18,7 +18,7 @@ public class SystemDataServiceImpl implements SystemDataService {
     @Override
     public Result<List<Data>> findList(Data data) {
         List<Data> dataList = dataMapper.findList(data);
-        return Result.success(dataList);
+        return Result.success(dataList.size(),dataList);
     }
 
     @Override
@@ -29,13 +29,20 @@ public class SystemDataServiceImpl implements SystemDataService {
     @Override
     public Result<Data> save(Data data) {
         if (data.getId() != 0){
-
+            dataMapper.update(data);
+            return Result.success(data);
+        }else {
+            dataMapper.insert(data);
+            return Result.success(data);
         }
-        return null;
     }
 
     @Override
-    public int delete(Data data) {
-        return dataMapper.delete(data);
+    public Result<?> delete(Data data) {
+        if (dataMapper.delete(data) != 0){
+            return Result.success(data);
+        }else {
+            return Result.failure();
+        }
     }
 }

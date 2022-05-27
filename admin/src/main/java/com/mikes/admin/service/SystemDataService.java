@@ -14,5 +14,5 @@ public interface SystemDataService {
 
     Result<Data> save(Data data);
 
-    int delete(Data data);
+    Result<?> delete(Data data);
 }

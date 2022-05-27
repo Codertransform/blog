@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mikes.admin.dao.user.MenuMapper">
+
+    <select id="findList" resultType="Menu">
+        select
+            r.id as "id",
+            r.parent_id as "parentId",
+            r.menu_name as "menuName",
+            r.link as "link",
+            r.sort as "sort",
+            r.display as "display",
+            r.remarks as "remarks"
+        from `sys_menu` r
+        where 1 = 1
+        <if test="menuName != null and menuName != ''">
+            and r.menu_name like CONCAT('%',#{menuName},'%')
+        </if>
+        order by r.id
+    </select>
+
+    <select id="findByParent" resultType="Menu">
+        select
+            r.id as "id",
+            r.parent_id as "parentId",
+            m.menu_name as "parentName",
+            r.menu_name as "menuName",
+            r.link as "link",
+            r.sort as "sort",
+            r.display as "display",
+            r.remarks as "remarks"
+        from `sys_menu` r
+        inner join sys_menu m on m.id = r.parent_id
+        where 1 = 1
+        <if test="menuName != null and menuName != ''">
+            and r.menu_name like CONCAT('%',#{menuName},'%')
+        </if>
+        order by r.id
+    </select>
+
+    <select id="get" resultType="Menu">
+        select
+            r.id as "id",
+            r.parent_id as "parentId",
+            r.menu_name as "menuName",
+            r.link as "link",
+            r.sort as "sort",
+            r.display as "display",
+            r.remarks as "remarks"
+        from `sys_menu` r
+        where 1 = 1
+        <if test="id != null and id != ''">
+            and r.id = #{id}
+        </if>
+    </select>
+
+    <select id="getByParent" resultType="Menu">
+        select
+            r.id as "id",
+            r.parent_id as "parentId",
+            m.menu_name as "parentName",
+            r.menu_name as "menuName",
+            r.link as "link",
+            r.sort as "sort",
+            r.display as "display",
+            r.remarks as "remarks"
+        from `sys_menu` r
+        inner join sys_menu m on m.id = r.parent_id
+        where 1 = 1
+        <if test="parentId != null and parentId != ''">
+            and r.parent_id = #{parentId}
+        </if>
+    </select>
+
+    <insert id="insert">
+        insert into sys_menu (
+            parent_id,
+            menu_name,
+            link,
+            sort,
+            display,
+            remarks
+        ) values (
+            #{parentId},
+            #{menuName},
+            #{link},
+            #{sort},
+            #{display},
+            #{remarks}
+        )
+    </insert>
+
+    <update id="update">
+        update sys_menu set
+            parent_id = #{parentId},
+            menu_name = #{menuName},
+            link = #{link},
+            sort = #{sort},
+            display = #{display},
+            remarks = #{remarks}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from sys_menu where id=#{id}
+    </delete>
+</mapper>
