@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2022-05-23 00:17:54
+Date: 2022-05-30 00:39:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -54,9 +54,9 @@ CREATE TABLE `sys_admin` (
 -- ----------------------------
 -- Records of sys_admin
 -- ----------------------------
-INSERT INTO `sys_admin` VALUES ('1', 'gxhbj', '$2a$10$2uCTkkItMcnA.kpKhn9YsOVgzHz8HSHOqGHhToqdRewpFtozS9K8e', '环保局', '0', '13556789876', '13556789876@163.com', null, '2020-08-12 22:57:45', '2020-10-26 23:53:38', null, '1');
-INSERT INTO `sys_admin` VALUES ('2', 'test', '', '测试', '0', '15769271840', '18204099093@163.com', null, '2020-08-24 09:37:46', '2020-09-14 11:20:06', null, '1');
-INSERT INTO `sys_admin` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', '1992-09-08', '2020-04-26 00:00:00', '2022-05-22 23:08:39', '拥有至高无上的权力', '0');
+INSERT INTO `sys_admin` VALUES ('1', 'gxhbj', '$10$2uCTkkItMcnA.kpKhn9YsOVgzHz8HSHOqGHhToqdRewpFtozS9K8e', 'echoMikes', '0', '15769271840', '18204099093@163.com', null, '2022-05-26 21:12:16', null, null, '1');
+INSERT INTO `sys_admin` VALUES ('2', 'test', ' ', '123', '0', '15769271840', '18204099093@163.com', null, '2022-05-26 21:12:46', null, null, '1');
+INSERT INTO `sys_admin` VALUES ('3', 'admin', '$2a$10$aHpK2QrfWKEDukKWv7Fd9ubXaWV/aPFBtYs1VZmtIsNrWvu95k2Bq', '超级无敌小可爱', '1', '15769271840', '18204099093@163.com', '1992-09-08', '2020-04-26 00:00:00', '2022-05-30 00:33:14', '拥有至高无上的权力', '0');
 
 -- ----------------------------
 -- Table structure for sys_admin_role
@@ -84,8 +84,8 @@ INSERT INTO `sys_admin_role` VALUES ('1', '3', '1');
 DROP TABLE IF EXISTS `sys_data`;
 CREATE TABLE `sys_data` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `data_type` varchar(15) NOT NULL COMMENT '数据类型',
-  `key` varchar(15) NOT NULL COMMENT '键名',
+  `data_type` varchar(30) NOT NULL COMMENT '数据类型',
+  `key` varchar(30) NOT NULL COMMENT '键名',
   `value` varchar(30) NOT NULL COMMENT '值',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典';
@@ -95,22 +95,36 @@ CREATE TABLE `sys_data` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for sys_permission
+-- Table structure for sys_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE `sys_permission` (
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `pId` int(10) NOT NULL COMMENT '父节点Id',
-  `name` varchar(20) NOT NULL COMMENT '节点名称',
-  `url` varchar(100) DEFAULT NULL COMMENT '连接',
+  `parent_id` int(10) NOT NULL COMMENT '父节点Id',
+  `menu_name` varchar(20) NOT NULL COMMENT '节点名称',
+  `href` varchar(20) DEFAULT NULL COMMENT 'tab链接',
+  `link` varchar(100) DEFAULT NULL COMMENT '连接',
   `sort` int(5) DEFAULT NULL COMMENT '序号',
+  `display` int(1) NOT NULL COMMENT '显示/隐藏',
+  `level` int(1) NOT NULL COMMENT '等级',
   `remarks` varchar(100) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限节点表';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ID` (`id`) USING BTREE,
+  KEY `PARENT_ID` (`parent_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='权限节点表';
 
 -- ----------------------------
--- Records of sys_permission
+-- Records of sys_menu
 -- ----------------------------
+INSERT INTO `sys_menu` VALUES ('1', '0', '系统管理', '', '/system', '1', '0', '1', '');
+INSERT INTO `sys_menu` VALUES ('2', '0', '内容管理', '', '/content', '2', '0', '1', '');
+INSERT INTO `sys_menu` VALUES ('3', '0', '广告管理', '', '/advertise', '3', '0', '1', '');
+INSERT INTO `sys_menu` VALUES ('4', '1', '管理员管理', '', '', '4', '0', '2', '');
+INSERT INTO `sys_menu` VALUES ('5', '4', '管理员列表', '#nav=adminList', '/system/admin/admin', '5', '0', '3', '');
+INSERT INTO `sys_menu` VALUES ('6', '4', '角色管理', '#nav=role', '/system/admin/role', '6', '0', '3', '');
+INSERT INTO `sys_menu` VALUES ('7', '4', '菜单管理', '#nav=menu', '/system/admin/menu', '7', '0', '3', '');
+INSERT INTO `sys_menu` VALUES ('8', '1', '系统设置', '', '', '8', '0', '2', '');
+INSERT INTO `sys_menu` VALUES ('9', '8', '数据字典', '#nav=systemdata', '/system/setting/data', '9', '0', '3', '');
 
 -- ----------------------------
 -- Table structure for sys_persistent_logins
@@ -188,26 +202,26 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '超级管理员', 'ROLE_ADMIN', '拥有至高无上的权利');
-INSERT INTO `sys_role` VALUES ('2', '用户', 'ROLE_GXHBJ', '一般用户');
-INSERT INTO `sys_role` VALUES ('3', '高新环保分局', 'ROLE_USER', '一般权限');
+INSERT INTO `sys_role` VALUES ('2', '高新环保分局', 'ROLE_GXHBJ', '一般用户');
+INSERT INTO `sys_role` VALUES ('3', '用户', 'ROLE_USER', '一般权限');
 
 -- ----------------------------
--- Table structure for sys_role_permission
+-- Table structure for sys_role_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role_permission`;
-CREATE TABLE `sys_role_permission` (
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `role_id` int(10) NOT NULL COMMENT '角色id',
   `permission_id` int(10) NOT NULL COMMENT '权限节点id',
   PRIMARY KEY (`id`),
   KEY `ROLE_PERMISSION_ID` (`role_id`) USING BTREE,
   KEY `PERMISSION_ROLE_ID` (`permission_id`) USING BTREE,
-  CONSTRAINT `sys_role_permission_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `sys_permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `sys_role_permission_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `sys_role_menu_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `sys_menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sys_role_menu_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限关系表';
 
 -- ----------------------------
--- Records of sys_role_permission
+-- Records of sys_role_menu
 -- ----------------------------
 
 -- ----------------------------
