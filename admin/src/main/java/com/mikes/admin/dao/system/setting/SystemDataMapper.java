@@ -1,6 +1,6 @@
-package com.mikes.admin.dao.system;
+package com.mikes.admin.dao.system.setting;
 
-import com.mikes.admin.entity.system.Data;
+import com.mikes.admin.entity.system.setting.Data;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

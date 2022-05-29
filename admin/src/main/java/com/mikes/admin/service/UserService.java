@@ -1,7 +1,7 @@
 package com.mikes.admin.service;
 
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.user.UserInfo;
+import com.mikes.admin.entity.system.user.UserInfo;
 
 import java.util.List;
 

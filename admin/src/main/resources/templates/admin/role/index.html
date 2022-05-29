@@ -42,7 +42,7 @@
         var tableIns = table.render({
             elem: '#demo',
             height: 312,
-            url: '/admin/role/infos', //数据接口
+            url: '/system/admin/role/infos', //数据接口
             where: {'name': name},
             method: 'post',
             page: true, //开启分页
@@ -72,13 +72,13 @@
                     type:2,
                     area:['1000px','700px'],
                     title:'查看角色信息',
-                    content:'/admin/role/detail?id=' + data.id
+                    content:'/system/admin/role/detail?id=' + data.id
                 })
             }else if (layEvent === 'del'){
                 layer.confirm('确定删除么？', function(index){
                     //向服务端发送删除指令
                     $.ajax({
-                        url: '/admin/role/delete',
+                        url: '/system/admin/role/delete',
                         type: 'POST',
                         data: {'id': data.id},
                         success: function (res){
@@ -96,7 +96,7 @@
                     type:2,
                     area:['1000px','700px'],
                     title:'角色信息编辑',
-                    content:'/admin/role/edit?id=' + data.id,
+                    content:'/system/admin/role/edit?id=' + data.id,
                     btn: ['提交', '重置'],
                     btnAlign: '1',
                     cancel: function () {
@@ -105,7 +105,7 @@
                     yes: function (index) {
                         var res = window["layui-layer-iframe" + index].callbackdata();
                         $.ajax({
-                            url:'/admin/role/save',
+                            url:'/system/admin/role/save',
                             type:'POST',
                             data: res,
                             success: function (result) {

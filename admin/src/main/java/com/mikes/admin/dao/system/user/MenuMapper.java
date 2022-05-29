@@ -1,6 +1,6 @@
-package com.mikes.admin.dao.user;
+package com.mikes.admin.dao.system.user;
 
-import com.mikes.admin.entity.system.Menu;
+import com.mikes.admin.entity.system.user.Menu;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -17,4 +17,6 @@ public interface MenuMapper {
     int update(Menu menu);
 
     int delete(Menu menu);
+
+    List<Menu> findByParent(Menu menu);
 }

@@ -1,8 +1,8 @@
 package com.mikes.admin.service.Impl;
 
-import com.mikes.admin.dao.system.SystemDataMapper;
+import com.mikes.admin.dao.system.setting.SystemDataMapper;
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.system.Data;
+import com.mikes.admin.entity.system.setting.Data;
 import com.mikes.admin.service.SystemDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

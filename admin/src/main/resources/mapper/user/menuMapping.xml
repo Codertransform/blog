@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mikes.admin.dao.user.MenuMapper">
+<mapper namespace="com.mikes.admin.dao.system.user.MenuMapper">
 
     <select id="findList" resultType="Menu">
         select
             r.id as "id",
             r.parent_id as "parentId",
+            m.menu_name as "parentName",
             r.menu_name as "menuName",
+            r.href as "href",
             r.link as "link",
             r.sort as "sort",
             r.display as "display",
+            r.level as "level",
             r.remarks as "remarks"
         from `sys_menu` r
+        left join sys_menu m on m.id = r.parent_id
         where 1 = 1
         <if test="menuName != null and menuName != ''">
             and r.menu_name like CONCAT('%',#{menuName},'%')
+        </if>
+        <if test="level != null and level != ''">
+            and r.level = #{level}
         </if>
         order by r.id
     </select>
@@ -26,15 +33,20 @@
             r.parent_id as "parentId",
             m.menu_name as "parentName",
             r.menu_name as "menuName",
+            r.href as "href",
             r.link as "link",
             r.sort as "sort",
             r.display as "display",
+            r.level as "level",
             r.remarks as "remarks"
         from `sys_menu` r
         inner join sys_menu m on m.id = r.parent_id
         where 1 = 1
-        <if test="menuName != null and menuName != ''">
-            and r.menu_name like CONCAT('%',#{menuName},'%')
+        <if test="id != null and id != ''">
+            and r.parent_id = #{id}
+        </if>
+        <if test="id != null and id != ''">
+            and r.parent_id = #{id}
         </if>
         order by r.id
     </select>
@@ -44,9 +56,11 @@
             r.id as "id",
             r.parent_id as "parentId",
             r.menu_name as "menuName",
+            r.href as "href",
             r.link as "link",
             r.sort as "sort",
             r.display as "display",
+            r.level as "level",
             r.remarks as "remarks"
         from `sys_menu` r
         where 1 = 1
@@ -61,9 +75,11 @@
             r.parent_id as "parentId",
             m.menu_name as "parentName",
             r.menu_name as "menuName",
+            r.href as "href",
             r.link as "link",
             r.sort as "sort",
             r.display as "display",
+            r.level as "level",
             r.remarks as "remarks"
         from `sys_menu` r
         inner join sys_menu m on m.id = r.parent_id
@@ -77,16 +93,20 @@
         insert into sys_menu (
             parent_id,
             menu_name,
+            href,
             link,
             sort,
             display,
+            `level`,
             remarks
         ) values (
             #{parentId},
             #{menuName},
+            #{href},
             #{link},
             #{sort},
             #{display},
+            #{level},
             #{remarks}
         )
     </insert>
@@ -95,9 +115,11 @@
         update sys_menu set
             parent_id = #{parentId},
             menu_name = #{menuName},
+            href = #{href},
             link = #{link},
             sort = #{sort},
             display = #{display},
+            `level` = #{level},
             remarks = #{remarks}
         where id = #{id}
     </update>

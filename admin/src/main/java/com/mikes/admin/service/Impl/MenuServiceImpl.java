@@ -1,13 +1,13 @@
 package com.mikes.admin.service.Impl;
 
-import com.mikes.admin.dao.user.MenuMapper;
+import com.mikes.admin.dao.system.user.MenuMapper;
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.system.Menu;
+import com.mikes.admin.entity.system.user.Menu;
 import com.mikes.admin.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -24,8 +24,20 @@ public class MenuServiceImpl implements MenuService {
             }else {
                 m.setDisp("隐藏");
             }
+            if (m.getLevel() == 1){
+                m.setLev("顶级菜单");
+            }else {
+                m.setLev("侧边菜单");
+            }
         }
         return Result.success(menus.size(),menus);
+    }
+
+    @Override
+    public List<Menu> findTop(){
+        Menu menu = new Menu();
+        menu.setLevel(1);
+        return menuMapper.findList(menu);
     }
 
     @Override
@@ -35,7 +47,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu get(Menu menu) {
-        return menuMapper.get(menu);
+        menu = menuMapper.get(menu);
+        return menu;
     }
 
     @Override
@@ -56,5 +69,30 @@ public class MenuServiceImpl implements MenuService {
         }else {
             return Result.failure();
         }
+    }
+
+    @Override
+    public Map<Menu, List<Menu>> findSide(Menu menu) {
+        Map<Menu, List<Menu>> menus = new LinkedHashMap<>();
+        List<Menu> child = menuMapper.findByParent(menu);
+        List<Menu> second = new ArrayList<>();
+        List<Menu> thrid = new ArrayList<>();
+        for (Menu m : child) {
+            if (m.getLevel() == 2) {
+                second.add(m);
+            } else {
+                thrid.add(m);
+            }
+        }
+        for (Menu m : second){
+            List<Menu> menuList = new ArrayList<>();
+            for (Menu m1 : thrid){
+                if (m1.getParentId() == m.getId()){
+                    menuList.add(m1);
+                }
+            }
+            menus.put(m, menuList);
+        }
+        return menus;
     }
 }

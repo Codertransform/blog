@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
-    <link rel="stylesheet" th:href="@{../static/lib/layui/css/layui.css}"/>
-    <link rel="stylesheet" th:href="@{../static/css/base.css}"/>
+    <link rel="stylesheet" th:href="@{../../static/lib/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{../../static/css/base.css}"/>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
@@ -40,7 +40,7 @@
         <table id="demo" lay-filter="admin"></table>
     </div>
 </div>
-<script type="text/javascript" th:src="@{../static/lib/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{../../static/lib/layui/layui.js}"></script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -60,7 +60,7 @@
         var tableIns = table.render({
             elem: '#demo',
             height: 312,
-            url: '/admin/userInfo', //数据接口
+            url: '/system/admin/admin/userInfo', //数据接口
             where: {'phone': phone, 'username': username},
             method: 'post',
             page: true, //开启分页
@@ -98,7 +98,7 @@
                         title: '提示'
                     }, function (index) {
                         $.ajax({
-                            url: '/admin/check',
+                            url: '/system/admin/admin/check',
                             data: {'id': data.id, 'enable': 0},
                             type: 'POST',
                             success: function (res) {
@@ -114,7 +114,7 @@
                         })
                     }, function (index) {
                         $.ajax({
-                            url: '/admin/check',
+                            url: '/system/admin/admin/check',
                             data: {'id': data.id, 'enable': 1},
                             type: 'POST',
                             success: function (res) {
@@ -134,7 +134,7 @@
                     layer.confirm('确定删除么？', function (index) {
                         //向服务端发送删除指令
                         $.ajax({
-                            url: '/admin/delete',
+                            url: '/system/admin/admin/delete',
                             type: 'POST',
                             data: {'id': data.id},
                             success: function (res) {
@@ -153,7 +153,7 @@
                         type: 2,
                         area: ['1000px', '700px'],
                         title: '管理员信息编辑',
-                        content: '/admin/edit?id=' + data.id,
+                        content: '/system/admin/admin/edit?id=' + data.id,
                         btn: ['提交', '重置'],
                         btnAlign: '1',
                         cancel: function () {
@@ -198,7 +198,7 @@
                         layer.confirm('确定删除么？', function (index) {
                             //向服务端发送删除指令
                             $.ajax({
-                                url: '/admin/idsDelete',
+                                url: '/system/admin/admin/idsDelete',
                                 type: 'POST',
                                 data: {'ids':ids},
                                 success: function (res) {

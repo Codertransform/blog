@@ -11,9 +11,7 @@
         <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
             <i class="layui-icon layui-icon-spread-left"></i>
         </li>
-        <li class="layui-nav-item layui-hide-xs"><a href="">系统管理</a></li>
-        <li class="layui-nav-item layui-hide-xs"><a href="">内容管理</a></li>
-        <li class="layui-nav-item layui-hide-xs"><a href="">广告管理</a></li>
+        <li class="layui-nav-item layui-hide-xs" th:each="m : ${topmenus}"><a th:href="'/?id='+${m.id}" th:text="${m.menuName}"></a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item layui-hide layui-show-md-inline-block">

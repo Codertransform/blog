@@ -4,24 +4,12 @@
     <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree" lay-filter="menu">
-            <li class="layui-nav-item layui-nav-itemed">
-                <a class="" href="javascript:void(0);">管理员管理</a>
+            <li class="layui-nav-item" th:each="sm : ${sidemenus}">
+                <a href="javascript:;" th:text="${sm.key.menuName}"></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="#nav=adminList" data-href="/admin">管理员列表</a></dd>
-                    <dd><a href="#nav=role" data-href="/admin/role">角色管理</a></dd>
-                    <dd><a href="#nav=menu" data-href="/admin/menu">菜单管理</a></dd>
+                    <dd th:each="m : ${sm.value}"><a th:href="${m.href}" th:data-href="${m.link}" th:text="${m.menuName}"></a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item">
-                <a href="javascript:void(0);">系统设置</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="#nav=systemdata" data-href="/system/data">数据字典</a></dd>
-                    <dd><a href="javascript:void(0);">list 2</a></dd>
-                    <dd><a href="javascript:void(0);">超链接</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="javascript:void(0);">click menu item</a></li>
-            <li class="layui-nav-item"><a href="javascript:void(0);">the links</a></li>
         </ul>
     </div>
 </div>

@@ -1,8 +1,7 @@
-package com.mikes.admin.controller.admin;
+package com.mikes.admin.controller.system.admin;
 
-import com.mikes.admin.entity.enumeration.Account;
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.user.UserInfo;
+import com.mikes.admin.entity.system.user.UserInfo;
 import com.mikes.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/system/admin/admin")
 public class AdminController {
 
     @Autowired

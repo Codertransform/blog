@@ -10,7 +10,7 @@
 <div class="layui-layout layui-layout-admin">
     <div class="layui-main">
         <div class="layui-row">
-            <form  class="layui-form" th:action="@{/system/data/}">
+            <form  class="layui-form" th:action="@{/system/setting/data/}">
                 <div class="layui-col-md2">
                     <label for="dataType" class="layui-form-label">字典类型</label>
                     <div class="layui-input-block">
@@ -57,7 +57,7 @@
         var tableIns = table.render({
             elem: '#datas',
             height: 312,
-            url: '/system/data/getDatas', //数据接口
+            url: '/system/setting/data/getDatas', //数据接口
             where: {'dataType': dataType, 'key': key},
             method: 'post',
             page: true, //开启分页
@@ -84,7 +84,7 @@
                     layer.confirm('确定删除么？', function (index) {
                         //向服务端发送删除指令
                         $.ajax({
-                            url: '/system/data/delete',
+                            url: '/system/setting/data/delete',
                             type: 'POST',
                             data: {'id': data.id},
                             success: function (res) {
@@ -104,7 +104,7 @@
                         type: 2,
                         area: ['1000px', '700px'],
                         title: '数据字典信息编辑',
-                        content: '/system/data/edit?id=' + data.id,
+                        content: '/system/setting/data/edit?id=' + data.id,
                         btn: ['提交', '重置'],
                         btnAlign: '1',
                         cancel: function () {
@@ -113,7 +113,7 @@
                         yes: function (index) {
                             var res = window["layui-layer-iframe" + index].callbackdata();
                             $.ajax({
-                                url: '/system/data/save',
+                                url: '/system/setting/data/save',
                                 type: 'POST',
                                 data: res,
                                 success: function (result) {
@@ -147,7 +147,7 @@
                         type: 2,
                         area: ['1000px', '700px'],
                         title: '数据字典信息编辑',
-                        content: '/system/data/add',
+                        content: '/system/setting/data/add',
                         btn: ['提交', '重置'],
                         btnAlign: '1',
                         cancel: function () {
@@ -156,7 +156,7 @@
                         yes: function (index) {
                             var res = window["layui-layer-iframe" + index].callbackdata();
                             $.ajax({
-                                url: '/system/data/save',
+                                url: '/system/setting/data/save',
                                 type: 'POST',
                                 data: res,
                                 success: function (result) {

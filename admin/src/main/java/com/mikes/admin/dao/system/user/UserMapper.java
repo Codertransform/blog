@@ -1,6 +1,6 @@
-package com.mikes.admin.dao.user;
+package com.mikes.admin.dao.system.user;
 
-import com.mikes.admin.entity.user.UserInfo;
+import com.mikes.admin.entity.system.user.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

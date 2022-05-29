@@ -1,4 +1,4 @@
-package com.mikes.admin.entity.user;
+package com.mikes.admin.entity.system.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

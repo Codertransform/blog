@@ -1,8 +1,8 @@
 package com.mikes.admin.service.Impl;
 
-import com.mikes.admin.dao.user.RoleMapper;
+import com.mikes.admin.dao.system.user.RoleMapper;
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.user.Role;
+import com.mikes.admin.entity.system.user.Role;
 import com.mikes.admin.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

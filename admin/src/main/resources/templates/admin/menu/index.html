@@ -45,8 +45,8 @@
 
         var tableIns = table.render({
             elem: '#demo',
-            height: 312,
-            url: '/admin/menu/getMenus', //数据接口
+            height: 520,
+            url: '/system/admin/menu/getMenus', //数据接口
             where: {'menuName': menuName},
             method: 'post',
             page: true, //开启分页
@@ -55,10 +55,12 @@
                 {type: "checkbox", width: 60, fixed: 'left'},
                 {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
                 {field: 'menuName', title: '菜单名称', width:150},
-                {field: 'parentName', title: '上级菜单', width:120},
-                {field: 'link', title: '连接', width:100},
+                {field: 'parentName', title: '上级菜单', width:150},
+                {field: 'href', title: 'tab连接', width:250},
+                {field: 'link', title: '连接', width:250},
                 {field: 'sort', title: '序号', width: 100},
-                {field: 'disp', title: '状态', width: 100},
+                {field: 'disp', title: '显示/隐藏', width: 100},
+                {field: 'lev', title: '等级', width: 100},
                 {title: '操作', fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}
             ]],
             toolbar: 'default',
@@ -66,7 +68,6 @@
         })
 
         table.on('tool(menu)', function (obj) {
-            console.log(obj);
             var data = obj.data;
             var layEvent = obj.event;
             // var tr = obj.tr;
@@ -75,18 +76,18 @@
                 case 'check':
                     layer.confirm('请选择下面的操作', {
                         icon: 3,
-                        btn: ['启用', '封禁'],
+                        btn: ['显示', '隐藏'],
                         title: '提示'
                     }, function (index) {
                         $.ajax({
-                            url: '/admin/check',
-                            data: {'id': data.id, 'enable': 0},
+                            url: '/system/admin/menu/status',
+                            data: {'id': data.id, 'display': 0},
                             type: 'POST',
                             success: function (res) {
                                 if (res.code === 0) {
                                     layer.msg(res.message, {icon: 1, time: 1000}, function () {
                                         obj.update({
-                                            'able': res.data.able
+                                            'disp': res.data.disp
                                         });
                                         layer.close(index);
                                     })
@@ -95,14 +96,14 @@
                         })
                     }, function (index) {
                         $.ajax({
-                            url: '/admin/check',
-                            data: {'id': data.id, 'enable': 1},
+                            url: '/system/admin/menu/status',
+                            data: {'id': data.id, 'display': 1},
                             type: 'POST',
                             success: function (res) {
                                 if (res.code === 0) {
                                     layer.msg(res.message, {icon: 1, time: 1000}, function () {
                                         obj.update({
-                                            'able': res.data.able
+                                            'disp': res.data.disp
                                         });
                                         layer.close(index);
                                     })
@@ -115,7 +116,7 @@
                     layer.confirm('确定删除么？', function (index) {
                         //向服务端发送删除指令
                         $.ajax({
-                            url: '/admin/delete',
+                            url: '/system/admin/menu/delete',
                             type: 'POST',
                             data: {'id': data.id},
                             success: function (res) {
@@ -133,8 +134,8 @@
                     var index = layer.open({
                         type: 2,
                         area: ['1000px', '700px'],
-                        title: '管理员信息编辑',
-                        content: '/admin/edit?id=' + data.id,
+                        title: '菜单信息编辑',
+                        content: '/system/admin/menu/edit?id=' + data.id,
                         btn: ['提交', '重置'],
                         btnAlign: '1',
                         cancel: function () {
@@ -143,7 +144,7 @@
                         yes: function (index) {
                             var res = window["layui-layer-iframe" + index].callbackdata();
                             $.ajax({
-                                url: '/admin/save',
+                                url: '/system/admin/menu/save',
                                 type: 'POST',
                                 data: res,
                                 success: function (result) {
@@ -174,7 +175,7 @@
                         type: 2,
                         area: ['1000px', '700px'],
                         title: '菜单信息编辑',
-                        content: '/admin/menu/add',
+                        content: '/system/admin/menu/add',
                         btn: ['提交', '重置'],
                         btnAlign: '1',
                         cancel: function () {
@@ -183,7 +184,7 @@
                         yes: function (index) {
                             var res = window["layui-layer-iframe" + index].callbackdata();
                             $.ajax({
-                                url: '/admin/menu/save',
+                                url: '/system/admin/menu/save',
                                 type: 'POST',
                                 data: res,
                                 success: function (result) {
@@ -210,7 +211,7 @@
                     layer.confirm('确定删除么？', function (index) {
                         //向服务端发送删除指令
                         $.ajax({
-                            url: '/admin/menu/idsDelete',
+                            url: '/system/admin/menu/idsDelete',
                             type: 'POST',
                             data: {'ids':ids},
                             success: function (res) {

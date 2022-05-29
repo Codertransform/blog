@@ -1,4 +1,4 @@
-package com.mikes.admin.entity.system;
+package com.mikes.admin.entity.system.setting;
 
 public class Data {
     private int id;

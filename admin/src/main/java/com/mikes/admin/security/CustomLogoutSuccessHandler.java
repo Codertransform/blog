@@ -1,6 +1,6 @@
 package com.mikes.admin.security;
 
-import com.mikes.admin.entity.user.UserInfo;
+import com.mikes.admin.entity.system.user.UserInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

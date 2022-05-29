@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
-    <link rel="stylesheet" th:href="@{../../static/lib/layui/css/layui.css}"/>
-    <link rel="stylesheet" th:href="@{../../static/css/base.css}"/>
+    <link rel="stylesheet" th:href="@{../../../static/lib/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{../../../static/css/base.css}"/>
 </head>
 <style>
     .layui-form{margin-top: 3rem;}
@@ -28,6 +28,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label for="href" class="layui-form-label">tab链接：</label>
+            <div class="layui-input-block">
+                <input id="href" type="text" name="href" placeholder="请输入tab链接" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label for="link" class="layui-form-label">链接：</label>
             <div class="layui-input-block">
                 <input id="link" type="text" name="link" placeholder="请输入链接" autocomplete="off" class="layui-input">
@@ -39,6 +45,19 @@
                 <input id="sort" type="text" name="sort" placeholder="请输入序号" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">显示/隐藏</label>
+            <div class="layui-input-block">
+                <input type="radio" name="display" value="0" title="显示">
+                <input type="radio" name="display" value="1" title="隐藏">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="level" class="layui-form-label">等级：</label>
+            <div class="layui-input-block">
+                <input id="level" type="text" name="level" placeholder="请输入等级" autocomplete="off" class="layui-input">
+            </div>
+        </div>
         <div class="layui-form-item layui-form-text">
             <label for="remarks" class="layui-form-label">描述</label>
             <div class="layui-input-block">
@@ -48,7 +67,7 @@
         <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
     </form>
 </div>
-<script type="text/javascript" th:src="@{../../static/lib/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{../../../static/lib/layui/layui.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     //JS
@@ -62,10 +81,12 @@
     var $ = layui.$;
     var callbackdata = function (){
         return {
-            parentId: $("select[name=parentId]:selected").val(),
+            parentId: $("select[name=parentId] option:selected").val(),
             menuName: $("#menuName").val(),
             link: $("#link").val(),
             sort: $("#sort").val(),
+            display: $("input[name=display]:checked").val(),
+            level: $("#level").val(),
             remarks: $("#remarks").val()
         };
     }

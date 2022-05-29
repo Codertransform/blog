@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
-    <link rel="stylesheet" th:href="@{../../static/lib/layui/css/layui.css}"/>
-    <link rel="stylesheet" th:href="@{../../static/css/base.css}"/>
+    <link rel="stylesheet" th:href="@{../../../static/lib/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{../../../static/css/base.css}"/>
 </head>
 <style>
     .layui-form{margin-top: 3rem;}
@@ -12,29 +12,62 @@
 <body>
 <div class="layui-layout layui-layout-admin">
     <form class="layui-form layui-col-md10 layui-col-md-offset1"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-        <input type="hidden" id="id" name="id" th:value="${data.id}">
+        <input type="hidden" id="id" name="id" th:value="${menu.id}">
         <div class="layui-form-item">
-            <label for="dataType" class="layui-form-label">数据类型：</label>
+            <label for="menuName" class="layui-form-label">菜单名称：</label>
             <div class="layui-input-block">
-                <input id="dataType" type="text" name="dataType" th:value="${data.dataType}" autocomplete="off" class="layui-input">
+                <input id="menuName" type="text" name="menuName" th:value="${menu.menuName}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="key" class="layui-form-label">键名：</label>
+            <label for="parentId" class="layui-form-label">上级菜单：</label>
             <div class="layui-input-block">
-                <input id="key" type="text" name="key" th:value="${data.key}" autocomplete="off" class="layui-input">
+                <select id="parentId" name="parentId" lay-verify="required">
+                    <option th:each="m : ${menus}" th:value="${m.id}" th:text="${m.menuName}" th:selected="${m.id == menu.id}"></option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="value" class="layui-form-label">值：</label>
+            <label for="href" class="layui-form-label">tab连接：</label>
             <div class="layui-input-block">
-                <input id="value" type="text" name="value" th:value="${data.value}" autocomplete="off" class="layui-input">
+                <input id="href" type="text" name="href" th:value="${menu.href}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="link" class="layui-form-label">连接：</label>
+            <div class="layui-input-block">
+                <input id="link" type="text" name="href" th:value="${menu.link}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">序号：</label>
+            <div class="layui-input-block">
+                <input id="sort" type="text" name="sort" th:value="${menu.sort}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">显示/隐藏：</label>
+            <div class="layui-input-block">
+                <input type="radio" name="display" value="0" title="显示" th:selected="${menu.display == 0}">
+                <input type="radio" name="display" value="1" title="隐藏" th:selected="${menu.display == 1}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="level" class="layui-form-label">等级：</label>
+            <div class="layui-input-block">
+                <input id="level" type="text" name="level" th:value="${menu.level}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label for="remarks" class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <textarea id="remarks" name="remarks" class="layui-textarea" th:text="${menu.remarks}"></textarea>
             </div>
         </div>
         <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
     </form>
 </div>
-<script type="text/javascript" th:src="@{../../static/lib/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{../../../static/lib/layui/layui.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     //JS

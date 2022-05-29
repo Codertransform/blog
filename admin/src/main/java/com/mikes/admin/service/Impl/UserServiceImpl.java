@@ -1,8 +1,8 @@
 package com.mikes.admin.service.Impl;
 
-import com.mikes.admin.dao.user.UserMapper;
+import com.mikes.admin.dao.system.user.UserMapper;
 import com.mikes.admin.entity.result.Result;
-import com.mikes.admin.entity.user.UserInfo;
+import com.mikes.admin.entity.system.user.UserInfo;
 import com.mikes.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
