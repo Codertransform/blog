@@ -73,25 +73,38 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Map<Menu, List<Menu>> findSide(Menu menu) {
+        System.out.println(menu);
         Map<Menu, List<Menu>> menus = new LinkedHashMap<>();
-        List<Menu> child = menuMapper.findByParent(menu);
-        List<Menu> second = new ArrayList<>();
-        List<Menu> thrid = new ArrayList<>();
-        for (Menu m : child) {
-            if (m.getLevel() == 2) {
-                second.add(m);
-            } else {
-                thrid.add(m);
+        if (menu.getParentId() != 0){
+            List<Menu> second = menuMapper.findByParent(menu);
+            for (Menu m : second){
+                System.out.println(m);
+                List<Menu> third = menuMapper.findByParent(m);
+                for(Menu t : third){
+                    System.out.println(t);
+                }
+                menus.put(m, third);
             }
-        }
-        for (Menu m : second){
-            List<Menu> menuList = new ArrayList<>();
-            for (Menu m1 : thrid){
-                if (m1.getParentId() == m.getId()){
-                    menuList.add(m1);
+        }else {
+            List<Menu> child = menuMapper.findByParent(menu);
+            List<Menu> second = new ArrayList<>();
+            List<Menu> third = new ArrayList<>();
+            for (Menu m : child) {
+                if (m.getLevel() == 2) {
+                    second.add(m);
+                } else {
+                    third.add(m);
                 }
             }
-            menus.put(m, menuList);
+            for (Menu m : second){
+                List<Menu> menuList = new ArrayList<>();
+                for (Menu m1 : third){
+                    if (m1.getParentId() == m.getId()){
+                        menuList.add(m1);
+                    }
+                }
+                menus.put(m, menuList);
+            }
         }
         return menus;
     }

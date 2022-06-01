@@ -42,11 +42,8 @@
         from `sys_menu` r
         inner join sys_menu m on m.id = r.parent_id
         where 1 = 1
-        <if test="id != null and id != ''">
-            and r.parent_id = #{id}
-        </if>
-        <if test="id != null and id != ''">
-            and r.parent_id = #{id}
+        <if test="parentId != null and parentId != ''">
+            and r.parent_id = #{parentId}
         </if>
         order by r.id
     </select>
